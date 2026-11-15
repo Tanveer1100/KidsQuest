@@ -20,14 +20,14 @@ Build a simple working mobile prototype with frontend and backend for:
 
 AI will be added later. AI planning, assessments, child learning activities, gamification, and progress tracking are outside this MVP. The broader requirements below are retained as future product direction, not permission to implement them now.
 
-The user has specified the child-profile fields below. Exact age-bucket boundaries, sign-in methods, and visual design still need the user's decisions. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
+The user has specified the child-profile fields and age buckets below. Sign-in methods and visual design still need the user's decisions. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
 
 #### Child-profile fields
 
 | Field | Confirmed requirement |
 | --- | --- |
 | Nickname | Child's nickname. |
-| Age bucket | Three-year age bucket, rather than exact age. Exact boundaries and handling of age 12 await clarification. |
+| Age bucket | Choose from 3–5, 6–8, and 9–12, rather than entering an exact age. The final bucket intentionally includes age 12. |
 | Default language | Default language for the child profile. |
 | Country of residence | Country of residence for the child profile. |
 
@@ -115,7 +115,6 @@ The assistant previously suggested the following. These are not requirements or 
 ### MVP decisions
 
 - Which sign-up and login methods should parents use?
-- What are the exact three-year age-bucket boundaries, including how age 12 is handled?
 - What visual direction should the prototype use?
 
 ### Future learning features
@@ -148,4 +147,4 @@ The assistant previously suggested the following. These are not requirements or 
 | Suggest plan goals, duration and schedule, learning steps, activity approach, and success criteria; let the parent choose and adjust before agreeing. | Confirmed by user. |
 | Define an SOP for how AI builds a learning plan before proceeding to the child's lesson design. | Requested by user; SOP contents await approval. |
 | First build a simple mobile frontend and backend for parent sign-up, login, and child-profile creation; add AI later. | Confirmed by user; supersedes the immediate focus on the AI planning SOP. |
-| Child profiles contain nickname, three-year age bucket, default language, and country of residence. | Confirmed by user; exact age-bucket boundaries await clarification. |
+| Child profiles contain nickname, age bucket, default language, and country of residence. Age buckets are 3–5, 6–8, and 9–12. | Confirmed by user. |
