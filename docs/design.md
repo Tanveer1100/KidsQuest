@@ -48,7 +48,8 @@ No particular language or country is assumed as a default.
 - The child home page is a welcome screen using the child's nickname and age range. It clearly indicates that learning activities are not part of the current MVP.
 - The saved profile view includes a button to the child's home, and the home view has a path back to the profile.
 - The child home page should show a subject tile with an icon for Math, English reading, Science, and a second language.
-- Subject progress language should feel gentle, playful, and encouraging, not like a judgment of the child or parent. Do not invent a measured grade or progress result; the progress-indicator format awaits the user's decision.
+- Subject progress language should feel gentle, playful, and encouraging, not like a judgment of the child or parent. Do not invent a measured grade or progress result.
+- Use gentle learning stages rather than school-style grades or percentages. While a subject has not been assessed or started, show “Ready to explore.” Once work on a subject has begun, use “Working on it” instead of “Practicing together.”
 
 ### Future product direction
 
@@ -150,6 +151,7 @@ The assistant previously suggested the following. These are not requirements or 
 
 - Built the agreed mobile MVP with public welcome, parent sign-up, email-code verification, login, Google authentication integration, logout, child-profile creation, and a saved-profile list/detail view.
 - Profiles are stored in the backend database, linked to the signed-in parent. Profile fields match the approved requirements and no age bucket, language, or country is preselected.
+- Each child's home page now shows icon tiles for Math, English reading, Science, and Second language. Since no learning checks exist yet, all four use the gentle status “Ready to explore” rather than an invented score.
 - The implementation uses the approved simple and calm direction. "Kids Learning" is a descriptive working title, not a separately approved permanent brand.
 - AI access was previously enabled, but the MVP contains no AI features or AI calls.
 - Verification: workspace type checks, Expo dependency checks, and iOS/Android JavaScript exports passed. The backend health endpoint responds and signed-out profile reads/creates are rejected.
@@ -172,7 +174,7 @@ The assistant previously suggested the following. These are not requirements or 
 | Child profiles contain nickname, age bucket, default language, and country of residence. Age buckets are 3–5, 6–8, and 9–12. | Confirmed by user. |
 | After creating a child profile, provide a navigation button to that child's home page. | Confirmed by user and implemented. |
 | Build the destination as a child welcome page, using the child's nickname and age range and no learning activities yet. | Confirmed by user selection and implemented. |
-| Show Math, English reading, Science, and Second Language on the child home page with icons. | Confirmed by user; pending implementation. |
-| Use gentle, playful, nonjudgmental language for subject status; do not invent unmeasured results. | Confirmed by user; progress indicator format awaits clarification. |
+| Show Math, English reading, Science, and Second Language on the child home page with icons. | Confirmed by user and implemented. |
+| Use gentle learning stages: “Ready to explore” before starting and “Working on it” once a subject is underway. | Confirmed by user; the current app shows “Ready to explore” until learning activity is added. |
 | Offer email/password with email verification by a sent code, or Google as the identity provider. | Confirmed by user. |
 | Use a simple and calm visual style for the MVP. | Confirmed by user. |
