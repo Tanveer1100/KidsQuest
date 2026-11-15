@@ -175,14 +175,14 @@ function PlanningChat({ adventure, onBack, refetch }: { adventure: Adventure; on
   return (
     <Screen scroll={false} testID="adventure-screen">
       <Header adventure={adventure} onBack={onBack} />
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} keyboardVerticalOffset={0}>
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1, minHeight: 0 }} keyboardVerticalOffset={0}>
         <FlatList
           inverted
           data={inverted}
           keyExtractor={(m) => m.id}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="interactive"
-          style={{ flex: 1 }}
+          style={{ flex: 1, minHeight: 0 }}
           contentContainerStyle={{ gap: 10, paddingVertical: 8 }}
           ListHeaderComponent={planBlock}
           ListFooterComponent={
@@ -211,7 +211,7 @@ function PlanningChat({ adventure, onBack, refetch }: { adventure: Adventure; on
             );
           }}
         />
-        <View style={[styles.inputRow, { borderTopColor: c.border }]}>
+        <View style={[styles.inputRow, { borderTopColor: c.border }]} testID="chat-input-row">
           <View style={[styles.inputWrap, { backgroundColor: c.card, borderColor: c.input, borderRadius: c.radius }]}>
             <TextInput
               value={text}

@@ -36,7 +36,7 @@ export function Screen({
   const insets = useSafeAreaInsets();
   const top = isWeb ? 67 : insets.top;
   const bottom = isWeb ? 34 : insets.bottom;
-  const inner = <View style={styles.column}>{children}</View>;
+  const inner = <View style={[styles.column, !scroll && styles.fixedColumn]}>{children}</View>;
   return (
     <View style={[styles.flex, { backgroundColor: c.background }]} testID={testID}>
       {scroll ? (
@@ -373,6 +373,7 @@ export function SelectField({
 const styles = StyleSheet.create({
   flex: { flex: 1 },
   column: { width: '100%', maxWidth: 480, alignSelf: 'center', paddingHorizontal: 24, flexGrow: 1 },
+  fixedColumn: { flex: 1, minHeight: 0 },
   footer: { paddingTop: 14, borderTopWidth: StyleSheet.hairlineWidth },
   topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, minHeight: 40 },
   topTitle: { fontFamily: fonts.medium, fontSize: 14, letterSpacing: 0.3 },

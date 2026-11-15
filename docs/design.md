@@ -170,6 +170,8 @@ The user directed implementation: “based on parent chat develop a plan and ask
 5. Activates only the exact reviewed draft version when the parent presses “Approve adventure”. Chat text alone cannot approve.
 6. Keeps approved plans read-only and lists them under Active. “Mark completed” is an explicit parent record, not an assessment of mastery.
 
+The mobile planning chat must keep its message field and Send action visible above the software keyboard while the parent types.
+
 **Current limits:** short child assessments and lesson delivery are not available; the chat states this and uses parent observations. There is no vetted curriculum library yet, so AI suggestions require parent judgment and do not guarantee educational outcomes. Parent daily usage is capped at 90 reserved model calls (at most 30 full planning turns); chats allow at most 30 parent turns and messages of 1,500 characters. Each turn has scope screening, structured generation, and independent output review, with deterministic validation and fixed refusal messages. Provider/check failures block unchecked output. Drafts survive reloads; retries use message IDs and version checks to avoid duplication or stale approval.
 
 ### Verification of the first planning version
