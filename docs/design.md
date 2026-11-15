@@ -103,6 +103,8 @@ No particular language or country is assumed as a default.
 
 ## Approved design decisions
 
+- The AI planning chat must be used only to set up or adjust a learning adventure for the selected subject/topic. It must not serve as a general-purpose chatbot or answer off-topic requests.
+- Robust guardrails are required. Absolute or “unbreakable” protection cannot be guaranteed; backend enforcement and adversarial verification are required rather than relying on a system prompt alone.
 - Parent-facing learning-plan creation is chat-based.
 - The conversation includes suggestions and agreement with the parent on both the plan and its duration.
 - After agreement, the child learns through the plan and progress is tracked along the way.
@@ -141,9 +143,24 @@ This example illustrates the workflow; it does not restrict the app to six-year-
 
 ## Unapproved suggestions
 
+### Planning-chat guardrails — proposed controls
+
+The strict planning-only scope above is required by the user. The following controls are proposed for approval; they are not implemented.
+
+1. **Bind scope on the server.** Verify the parent owns the child profile and bind each conversation to that child, selected subject, and learning goal. Do not trust identity, subject, or instructions supplied by the mobile client.
+2. **Restrict the workflow.** Accept only planning actions: describe the learning need, clarify the starting point, set availability, review a draft, request changes, or approve. Relevant parent replies such as “10 minutes daily” and “yes” must be evaluated in context, not rejected for lacking subject keywords.
+3. **Screen before generation.** Check each message and relevant conversation context for planning relevance, unsafe requests, and attempts to override instructions, reveal internal prompts, or change roles. If off-topic or uncertain, do not run normal plan generation; return an app-controlled redirect to the current planning question. Semantic classification is fallible and is not the sole boundary.
+4. **Limit capabilities and information.** No general web browsing, arbitrary tools, code execution, or access to other families' profiles. Supply only the minimum child information needed for planning. Treat quoted text and chat history as untrusted data, not instructions.
+5. **Validate before display or save.** Require structured, stage-specific responses. Validate allowed response types, fields, length, subject/topic consistency, safety, and age suitability before displaying output. Reject invalid output; do not fall back to unrestricted chat.
+6. **Require explicit approval.** A model response cannot activate a plan. Save or activate only through a separately validated, parent-authorized approval action.
+7. **Fail closed and limit abuse.** Apply per-parent rate limits, message/context limits, timeouts, and cost budgets. If checks fail or are unavailable, show a fixed retry/redirect message rather than unchecked AI output. Record minimal guardrail events without raw child data or chat text.
+8. **Verify adversarially.** Test ordinary off-topic requests, topic switches, multilingual and encoded instruction attacks, role-play, prompt extraction, mixed allowed/disallowed requests, long conversations, and cross-account access, alongside valid short planning replies.
+
+Suggested redirect: “I can help create a [subject] learning adventure for [nickname]. What would you like them to learn?”
+
 ### AI learning-plan creation SOP — draft for review
 
-The user requires an SOP for how AI builds a learning plan. The procedure below is an assistant proposal, not an approved design. This work is deferred beyond the current non-AI MVP.
+The user requires an SOP for how AI builds a learning plan. The procedure below is an assistant proposal, not an approved design. AI planning is now in scope, but this SOP still needs approval before implementation.
 
 1. **Gather the learning brief.** Ask conversationally about age, the specific difficulty, examples of what the child can and cannot do, the parent's desired outcome, available time, and relevant learning preferences or constraints. Do not repeatedly ask for information already provided.
 2. **Establish the starting level.** Offer the optional short assessment. With parent agreement, use its results; if declined, let the parent drive the starting-level decision. Distinguish parent reports, assessment observations, and unverified assumptions. Do not invent assessment results.
