@@ -79,7 +79,10 @@ No particular language or country is assumed as a default.
 
 - Keep this as the child-facing home page only; do not add a separate parent summary or parent-only section.
 - The page should let a parent understand each subject at a glance through its icon, gentle learning stage, and active-plan count.
-- Child-friendly wording for the active-plan count (for example, “learning adventures” rather than “active plans”) still needs a decision.
+- Use “Learning adventure” as the child-facing name for a learning plan/course.
+- Selecting a subject shows a toggle between its Active and Completed learning-adventure lists.
+- The Active list shows the subject’s learning adventures and an “Add a learning adventure” action. The creation flow and required fields are not decided yet.
+- It is not yet decided whether selecting a subject opens a separate screen or expands the subject inline.
 - A next planned session or recent positive learning win could be considered later, but these additions are not approved.
 
 ### Future product direction
