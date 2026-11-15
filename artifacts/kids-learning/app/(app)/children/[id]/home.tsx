@@ -9,10 +9,10 @@ import { useMyChildren } from '@/lib/session';
 import { ageLabel } from '@/lib/reference-data';
 
 const SUBJECTS = [
-  { title: 'Math', icon: 'calculator-variant' },
-  { title: 'English reading', icon: 'book-open-page-variant' },
-  { title: 'Science', icon: 'flask-outline' },
-  { title: 'Second language', icon: 'translate' },
+  { title: 'Math', icon: 'calculator-variant', activePlans: 0 },
+  { title: 'English reading', icon: 'book-open-page-variant', activePlans: 0 },
+  { title: 'Science', icon: 'flask-outline', activePlans: 0 },
+  { title: 'Second language', icon: 'translate', activePlans: 0 },
 ] as const;
 
 export default function ChildHome() {
@@ -22,6 +22,7 @@ export default function ChildHome() {
   const { data, isLoading, isError, refetch } = useMyChildren();
   const child = data?.find((profile) => String(profile.id) === id);
   const backToProfile = () => router.replace({ pathname: '/children/[id]', params: { id } });
+  const backToChildren = () => router.replace('/children');
 
   let content: React.ReactNode;
   if (isLoading) {
@@ -60,24 +61,30 @@ export default function ChildHome() {
           </Text>
         </View>
         <Text style={[styles.subjectHeading, { color: c.foreground }]}>Your subjects</Text>
-        <View style={styles.subjectGrid} testID="subject-grid">
+        <View style={styles.topicList} testID="topic-list">
           {SUBJECTS.map((subject) => (
             <View
               key={subject.title}
               accessible
-              accessibilityLabel={`${subject.title}. Ready to explore.`}
+              accessibilityLabel={`${subject.title}. Ready to explore. ${subject.activePlans} active learning plans.`}
               style={[
-                styles.subjectCard,
+                styles.topicCard,
                 { backgroundColor: c.card, borderColor: c.border, borderRadius: c.radius + 4 },
               ]}
-              testID={`subject-${subject.title.toLowerCase().replace(/ /g, '-')}`}
+              testID={`topic-${subject.title.toLowerCase().replace(/ /g, '-')}`}
             >
               <View style={[styles.subjectIcon, { backgroundColor: c.secondary }]}>
                 <MaterialCommunityIcons name={subject.icon} size={22} color={c.primary} />
               </View>
-              <Text style={[styles.subjectName, { color: c.foreground }]}>{subject.title}</Text>
-              <View style={[styles.stageBadge, { backgroundColor: c.muted, borderRadius: c.radius }]}>
-                <Text style={[styles.stageText, { color: c.secondaryForeground }]}>Ready to explore</Text>
+              <View style={styles.topicDescription}>
+                <Text style={[styles.subjectName, { color: c.foreground }]}>{subject.title}</Text>
+                <View style={[styles.stageBadge, { backgroundColor: c.muted, borderRadius: c.radius }]}>
+                  <Text style={[styles.stageText, { color: c.secondaryForeground }]}>Ready to explore</Text>
+                </View>
+              </View>
+              <View style={styles.planCount}>
+                <Text style={[styles.planNumber, { color: c.foreground }]}>{subject.activePlans}</Text>
+                <Text style={[styles.planLabel, { color: c.mutedForeground }]}>active plans</Text>
               </View>
             </View>
           ))}
@@ -98,7 +105,7 @@ export default function ChildHome() {
       footer={child ? <Button label="View profile" variant="secondary" onPress={backToProfile} testID="child-home-profile-button" /> : null}
     >
       <TopBar
-        onBack={backToProfile}
+        onBack={backToChildren}
         title={child ? `${child.nickname}’s home` : 'Child home'}
       />
       {child && !isError && !isLoading ? (
@@ -117,12 +124,16 @@ const styles = StyleSheet.create({
   greeting: { fontFamily: fonts.semibold, fontSize: 24, lineHeight: 32, textAlign: 'center' },
   age: { fontFamily: fonts.medium, fontSize: 14, marginTop: 8 },
   subjectHeading: { fontFamily: fonts.semibold, fontSize: 19 },
-  subjectGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 12 },
-  subjectCard: { width: '48%', minHeight: 150, borderWidth: 1, padding: 14, justifyContent: 'space-between' },
+  topicList: { gap: 12 },
+  topicCard: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, padding: 14, minHeight: 86 },
   subjectIcon: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-  subjectName: { fontFamily: fonts.medium, fontSize: 16, lineHeight: 21, marginVertical: 10 },
+  topicDescription: { flex: 1, gap: 7 },
+  subjectName: { fontFamily: fonts.medium, fontSize: 16, lineHeight: 21 },
   stageBadge: { alignSelf: 'flex-start', paddingHorizontal: 9, paddingVertical: 6 },
   stageText: { fontFamily: fonts.medium, fontSize: 12, lineHeight: 16 },
+  planCount: { minWidth: 66, alignItems: 'center', justifyContent: 'center' },
+  planNumber: { fontFamily: fonts.semibold, fontSize: 19, lineHeight: 24 },
+  planLabel: { fontFamily: fonts.regular, fontSize: 11, textAlign: 'center', lineHeight: 14 },
   note: { padding: 18, gap: 6 },
   noteTitle: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 22 },
   helper: { fontFamily: fonts.regular, fontSize: 15, lineHeight: 22 },

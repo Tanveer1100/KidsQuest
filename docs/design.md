@@ -34,7 +34,7 @@ There are seven main routes and two conditional authentication steps, for nine c
 | Parent login form | Parent sign-in |
 | Sign-in email-code step | Confirm it’s you |
 | Saved child profiles | Your children |
-| Child profile form | Add a child |
+| Child profile form | Add profile |
 | Child details | Child profile |
 | Child's subject page | [Child nickname]’s learning home |
 
@@ -63,12 +63,15 @@ No particular language or country is assumed as a default.
 #### After creating a child profile
 
 - After a profile is saved, provide a clear navigation button to open that child's home page.
+- After sign-in, show the parent's saved child profiles as a list, with an “Add profile” action as the last item.
+- Selecting a child profile opens that child's home page directly.
 - The child home page is a welcome screen using the child's nickname and age range. It clearly indicates that learning activities are not part of the current MVP.
 - The saved profile view includes a button to the child's home, and the home view has a path back to the profile.
-- The child home page should show a subject tile with an icon for Math, English reading, Science, and a second language.
+- The child home page should show a vertical topic list with an icon for Math, English reading, Science, and a second language.
 - Each subject tile should show the number of active learning plans for that subject. This depends on learning plans being created and tracked; do not show invented counts.
 - Subject progress language should feel gentle, playful, and encouraging, not like a judgment of the child or parent. Do not invent a measured grade or progress result.
 - Use gentle learning stages rather than school-style grades or percentages. While a subject has not been assessed or started, show “Ready to explore.” Once work on a subject has begun, use “Working on it” instead of “Practicing together.”
+- Until learning plans are implemented, the prototype shows 0 active plans per topic as an explicit placeholder; replace these with counts from real plan data when available.
 
 #### Child home overview
 
@@ -177,7 +180,8 @@ The assistant previously suggested the following. These are not requirements or 
 
 - Built the agreed mobile MVP with public welcome, parent sign-up, email-code verification, login, Google authentication integration, logout, child-profile creation, and a saved-profile list/detail view.
 - Profiles are stored in the backend database, linked to the signed-in parent. Profile fields match the approved requirements and no age bucket, language, or country is preselected.
-- Each child's home page now shows icon tiles for Math, English reading, Science, and Second language. Since no learning checks exist yet, all four use the gentle status “Ready to explore” rather than an invented score.
+- The signed-in page lists saved child profiles and ends with an Add profile item. Selecting a child opens the child home directly.
+- Each child's home page shows a vertical list for Math, English reading, Science, and Second language. Each topic shows “Ready to explore” and a zero active-plan placeholder until real plan data exists.
 - The implementation uses the approved simple and calm direction. "Kids Learning" is a descriptive working title, not a separately approved permanent brand.
 - AI access was previously enabled, but the MVP contains no AI features or AI calls.
 - Verification: workspace type checks, Expo dependency checks, and iOS/Android JavaScript exports passed. The backend health endpoint responds and signed-out profile reads/creates are rejected.
@@ -199,9 +203,10 @@ The assistant previously suggested the following. These are not requirements or 
 | First build a simple mobile frontend and backend for parent sign-up, login, and child-profile creation; add AI later. | Confirmed by user; supersedes the immediate focus on the AI planning SOP. |
 | Child profiles contain nickname, age bucket, default language, and country of residence. Age buckets are 3–5, 6–8, and 9–12. | Confirmed by user. |
 | After creating a child profile, provide a navigation button to that child's home page. | Confirmed by user and implemented. |
+| After sign-in, list saved child profiles with Add profile as the last item; selecting a profile opens its home directly. | Confirmed by user; implementation updated. |
 | Build the destination as a child welcome page, using the child's nickname and age range and no learning activities yet. | Confirmed by user selection and implemented. |
-| Show Math, English reading, Science, and Second Language on the child home page with icons. | Confirmed by user and implemented. |
-| Show the active learning-plan count on each subject tile. | Confirmed by user; requires learning-plan data and is not yet implemented. |
+| Show Math, English reading, Science, and Second Language in a vertical child-home list with icons. | Confirmed by user and implemented. |
+| Show the active learning-plan count on each subject. | Confirmed by user; the prototype uses a 0 placeholder until real plan data exists. |
 | Make the child home page child-facing. | Confirmed by user. |
 | Keep the child home as the only overview; no separate parent summary. | Confirmed by user. |
 | Use gentle learning stages: “Ready to explore” before starting and “Working on it” once a subject is underway. | Confirmed by user; the current app shows “Ready to explore” until learning activity is added. |

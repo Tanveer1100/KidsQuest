@@ -41,7 +41,7 @@ export default function ChildrenList() {
   return (
     <View style={{ flex: 1, backgroundColor: c.background }} testID="children-screen">
       <ScrollView
-        contentContainerStyle={{ paddingTop: top + 12, paddingBottom: bottom + 110, flexGrow: 1 }}
+        contentContainerStyle={{ paddingTop: top + 12, paddingBottom: bottom + 28, flexGrow: 1 }}
         refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={() => { void refetch(); }} tintColor={c.primary} />}
       >
         <View style={styles.column}>
@@ -87,14 +87,16 @@ export default function ChildrenList() {
                 Add a profile for each child. It only takes a nickname, an age range, a language and a country.
               </Text>
             </Animated.View>
-          ) : (
+          ) : null}
+
+          {!isLoading && !isError && list.length > 0 ? (
             <View style={{ gap: 12, marginTop: 24 }}>
               {list.map((child, i) => (
                 <Animated.View key={child.id} entering={Platform.OS === 'web' ? undefined : FadeInDown.delay(i * 60).duration(450)}>
                   <Pressable
-                    onPress={() => router.push({ pathname: '/children/[id]', params: { id: String(child.id) } })}
+                    onPress={() => router.push({ pathname: '/children/[id]/home', params: { id: String(child.id) } })}
                     accessibilityRole="button"
-                    accessibilityLabel={`${child.nickname}, ages ${ageLabel(child.ageBucket)}`}
+                    accessibilityLabel={`Open ${child.nickname}’s learning home, ages ${ageLabel(child.ageBucket)}`}
                     testID={`child-card-${child.id}`}
                     style={({ pressed }) => [
                       styles.card,
@@ -117,19 +119,31 @@ export default function ChildrenList() {
                 </Animated.View>
               ))}
             </View>
-          )}
+          ) : null}
+
+          <Animated.View entering={Platform.OS === 'web' ? undefined : FadeInDown.delay(list.length * 60).duration(450)}>
+            <Pressable
+              onPress={() => router.push('/children/new')}
+              accessibilityRole="button"
+              accessibilityLabel="Add a child profile"
+              testID="add-profile-button"
+              style={({ pressed }) => [
+                styles.addCard,
+                { backgroundColor: c.card, borderColor: c.border, borderRadius: c.radius + 4, opacity: pressed ? 0.8 : 1 },
+              ]}
+            >
+              <View style={[styles.initial, { backgroundColor: c.secondary }]}>
+                <Feather name="plus" size={20} color={c.primary} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.name, { color: c.foreground }]}>Add profile</Text>
+                <Text style={[styles.meta, { color: c.mutedForeground }]}>Create a profile for another child</Text>
+              </View>
+              <Feather name="chevron-right" size={18} color={c.mutedForeground} />
+            </Pressable>
+          </Animated.View>
         </View>
       </ScrollView>
-      <View style={[styles.fabWrap, { paddingBottom: bottom + 16, backgroundColor: c.background, borderTopColor: c.border }]}>
-        <View style={styles.column}>
-          <Button
-            label="Add a child"
-            onPress={() => router.push('/children/new')}
-            icon={<Feather name="plus" size={18} color={c.primaryForeground} />}
-            testID="add-child-button"
-          />
-        </View>
-      </View>
     </View>
   );
 }
@@ -152,5 +166,5 @@ const styles = StyleSheet.create({
   initialText: { fontFamily: fonts.semibold, fontSize: 18 },
   name: { fontFamily: fonts.semibold, fontSize: 17 },
   meta: { fontFamily: fonts.regular, fontSize: 13, marginTop: 3 },
-  fabWrap: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingTop: 14, borderTopWidth: StyleSheet.hairlineWidth },
+  addCard: { flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderStyle: 'dashed', padding: 16, marginTop: 14 },
 });
