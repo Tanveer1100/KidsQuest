@@ -55,7 +55,8 @@ No particular language or country is assumed as a default.
 #### Parent overview ideas — not yet approved
 
 - Consider showing the next planned learning session and a recent positive learning win, if these can be backed by real plan or activity data.
-- The page's intended audience needs clarification: the current child home is child-facing, while the user wants parents to see a complete picture at a glance.
+- The user selected the child learning home as the audience for the subject page. Where to place the complementary parent one-glance summary still needs a decision.
+- Child-friendly wording for the active-plan count (for example, “learning adventures” rather than “active plans”) still needs a decision.
 
 ### Future product direction
 
@@ -182,6 +183,7 @@ The assistant previously suggested the following. These are not requirements or 
 | Build the destination as a child welcome page, using the child's nickname and age range and no learning activities yet. | Confirmed by user selection and implemented. |
 | Show Math, English reading, Science, and Second Language on the child home page with icons. | Confirmed by user and implemented. |
 | Show the active learning-plan count on each subject tile. | Confirmed by user; requires learning-plan data and is not yet implemented. |
+| Make the child home page child-facing. | Confirmed by user. |
 | Use gentle learning stages: “Ready to explore” before starting and “Working on it” once a subject is underway. | Confirmed by user; the current app shows “Ready to explore” until learning activity is added. |
 | Offer email/password with email verification by a sent code, or Google as the identity provider. | Confirmed by user. |
 | Use a simple and calm visual style for the MVP. | Confirmed by user. |
