@@ -45,7 +45,8 @@ No particular language or country is assumed as a default.
 #### After creating a child profile
 
 - After a profile is saved, provide a clear navigation button to open that child's home page.
-- The home page's audience, contents, and visual treatment still need the user's direction. There is not yet a separate child home page in the MVP.
+- The child home page is a welcome screen using the child's nickname and age range. It clearly indicates that learning activities are not part of the current MVP.
+- The saved profile view includes a button to the child's home, and the home view has a path back to the profile.
 
 ### Future product direction
 
@@ -167,6 +168,7 @@ The assistant previously suggested the following. These are not requirements or 
 | Define an SOP for how AI builds a learning plan before proceeding to the child's lesson design. | Requested by user; SOP contents await approval. |
 | First build a simple mobile frontend and backend for parent sign-up, login, and child-profile creation; add AI later. | Confirmed by user; supersedes the immediate focus on the AI planning SOP. |
 | Child profiles contain nickname, age bucket, default language, and country of residence. Age buckets are 3–5, 6–8, and 9–12. | Confirmed by user. |
-| After creating a child profile, provide a navigation button to that child's home page. | Confirmed by user; home page content awaits clarification. |
+| After creating a child profile, provide a navigation button to that child's home page. | Confirmed by user and implemented. |
+| Build the destination as a child welcome page, using the child's nickname and age range and no learning activities yet. | Confirmed by user selection and implemented. |
 | Offer email/password with email verification by a sent code, or Google as the identity provider. | Confirmed by user. |
 | Use a simple and calm visual style for the MVP. | Confirmed by user. |

@@ -16,6 +16,18 @@ export default function ChildProfileScreen() {
   const { data, isLoading, isError, refetch } = useMyChildren();
   const child = data?.find((ch) => String(ch.id) === id);
   const back = () => router.replace('/children');
+  const footer = child ? (
+    <View style={{ gap: 10 }}>
+      <Button
+        label={`Go to ${child.nickname}’s home`}
+        onPress={() => router.push({ pathname: '/children/[id]/home', params: { id: String(child.id) } })}
+        testID="child-home-button"
+      />
+      <Button label="Back to all children" variant="ghost" onPress={back} testID="child-done" />
+    </View>
+  ) : (
+    <Button label="Back to all children" variant="secondary" onPress={back} testID="child-done" />
+  );
 
   let body: React.ReactNode;
   if (isLoading) {
@@ -72,7 +84,7 @@ export default function ChildProfileScreen() {
   }
 
   return (
-    <Screen testID="child-profile-screen" footer={<Button label="Done" variant="secondary" onPress={back} testID="child-done" />}>
+    <Screen testID="child-profile-screen" footer={footer}>
       <TopBar onBack={back} title="Profile" />
       {body}
     </Screen>
