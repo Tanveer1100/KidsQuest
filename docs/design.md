@@ -48,8 +48,14 @@ No particular language or country is assumed as a default.
 - The child home page is a welcome screen using the child's nickname and age range. It clearly indicates that learning activities are not part of the current MVP.
 - The saved profile view includes a button to the child's home, and the home view has a path back to the profile.
 - The child home page should show a subject tile with an icon for Math, English reading, Science, and a second language.
+- Each subject tile should show the number of active learning plans for that subject. This depends on learning plans being created and tracked; do not show invented counts.
 - Subject progress language should feel gentle, playful, and encouraging, not like a judgment of the child or parent. Do not invent a measured grade or progress result.
 - Use gentle learning stages rather than school-style grades or percentages. While a subject has not been assessed or started, show “Ready to explore.” Once work on a subject has begun, use “Working on it” instead of “Practicing together.”
+
+#### Parent overview ideas — not yet approved
+
+- Consider showing the next planned learning session and a recent positive learning win, if these can be backed by real plan or activity data.
+- The page's intended audience needs clarification: the current child home is child-facing, while the user wants parents to see a complete picture at a glance.
 
 ### Future product direction
 
@@ -175,6 +181,7 @@ The assistant previously suggested the following. These are not requirements or 
 | After creating a child profile, provide a navigation button to that child's home page. | Confirmed by user and implemented. |
 | Build the destination as a child welcome page, using the child's nickname and age range and no learning activities yet. | Confirmed by user selection and implemented. |
 | Show Math, English reading, Science, and Second Language on the child home page with icons. | Confirmed by user and implemented. |
+| Show the active learning-plan count on each subject tile. | Confirmed by user; requires learning-plan data and is not yet implemented. |
 | Use gentle learning stages: “Ready to explore” before starting and “Working on it” once a subject is underway. | Confirmed by user; the current app shows “Ready to explore” until learning activity is added. |
 | Offer email/password with email verification by a sent code, or Google as the identity provider. | Confirmed by user. |
 | Use a simple and calm visual style for the MVP. | Confirmed by user. |
