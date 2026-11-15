@@ -141,11 +141,9 @@ The parent of a six-year-old says their child is weak in double-digit math addit
 
 This example illustrates the workflow; it does not restrict the app to six-year-olds or addition. No specific duration, daily schedule, activity format, assessment method, or success criteria have been decided.
 
-## Unapproved suggestions
+## Approved planning-chat guardrails
 
-### Planning-chat guardrails — proposed controls
-
-The strict planning-only scope above is required by the user. The following controls are proposed for approval; they are not implemented.
+The user approved the following controls. They are requirements for implementation, not a claim that guardrails are implemented or unbreakable.
 
 1. **Bind scope on the server.** Verify the parent owns the child profile and bind each conversation to that child, selected subject, and learning goal. Do not trust identity, subject, or instructions supplied by the mobile client.
 2. **Restrict the workflow.** Accept only planning actions: describe the learning need, clarify the starting point, set availability, review a draft, request changes, or approve. Relevant parent replies such as “10 minutes daily” and “yes” must be evaluated in context, not rejected for lacking subject keywords.
@@ -156,7 +154,9 @@ The strict planning-only scope above is required by the user. The following cont
 7. **Fail closed and limit abuse.** Apply per-parent rate limits, message/context limits, timeouts, and cost budgets. If checks fail or are unavailable, show a fixed retry/redirect message rather than unchecked AI output. Record minimal guardrail events without raw child data or chat text.
 8. **Verify adversarially.** Test ordinary off-topic requests, topic switches, multilingual and encoded instruction attacks, role-play, prompt extraction, mixed allowed/disallowed requests, long conversations, and cross-account access, alongside valid short planning replies.
 
-Suggested redirect: “I can help create a [subject] learning adventure for [nickname]. What would you like them to learn?”
+Redirect example: “I can help create a [subject] learning adventure for [nickname]. What would you like them to learn?”
+
+## Unapproved suggestions
 
 ### AI learning-plan creation SOP — draft for review
 
