@@ -82,7 +82,7 @@ No particular language or country is assumed as a default.
 - Use “Learning adventure” as the child-facing name for a learning plan/course.
 - Selecting a subject shows a toggle between its Active and Completed learning-adventure lists.
 - The Active list shows the subject’s learning adventures and an “Add a learning adventure” action. The creation flow and required fields are not decided yet.
-- It is not yet decided whether selecting a subject opens a separate screen or expands the subject inline.
+- Selecting a subject opens a separate subject screen with Active and Completed learning-adventure lists.
 - A next planned session or recent positive learning win could be considered later, but these additions are not approved.
 
 ### Future product direction
