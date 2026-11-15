@@ -94,10 +94,10 @@ No particular language or country is assumed as a default.
 
 #### Requested plan history and progress additions — design pending
 
-- Add a parent-facing option to reopen a completed learning adventure.
+- Parents can choose to resume a completed adventure as Active or return it to Draft for changes; draft changes require parent approval again.
 - Show a completion percentage on each adventure in the subject's plan list.
 - Show an assessment grade only when a real assessment result exists; never infer or fabricate a grade.
-- Decisions still needed: what reopening does, how completion percentage is calculated, and how an earned grade should be presented.
+- Decisions still needed: how completion percentage is calculated and how an earned grade should be presented.
 
 ### Future product direction
 
@@ -134,6 +134,8 @@ Each suggested learning plan includes:
 | Success criteria | How progress and completion will be measured. |
 
 The parent chooses whether to accept the suggested plan or adjust these elements. The app must not treat a suggestion as the parent's agreement. The child begins the plan after the parent agrees.
+
+When reopening a completed adventure, offer both choices: resume the approved plan as Active, or return it to Draft for changes and require approval again.
 
 The exact presentation and adjustment controls have not been decided.
 
@@ -231,7 +233,6 @@ The assistant previously suggested the following. These are not requirements or 
 - What format and length should the optional short assessment have?
 - How should the suggested plan be presented, adjusted, and explicitly agreed to within the chat-based flow?
 - How should existing plans be updated, and who approves changes?
-- Should reopening a completed adventure resume it as active, return it to draft for changes, or offer both?
 - Should progress percentage be based on completed learning steps, completed sessions, or another measure?
 - What form of grade should appear when an assessment has actually been completed?
 - What kinds of interactive activities and gamification should be used?
@@ -262,6 +263,7 @@ The assistant previously suggested the following. These are not requirements or 
 | Create plans through an interactive parent chat, agree on the plan and duration, then execute it and track progress. | Confirmed by user's reference use case. |
 | Offer a short child assessment only with parent agreement; if declined, let the parent drive the starting-level decision. | Confirmed by user. |
 | Suggest plan goals, duration and schedule, learning steps, activity approach, and success criteria; let the parent choose and adjust before agreeing. | Confirmed by user. |
+| Reopening a completed adventure offers both resume-as-Active and return-to-Draft-for-changes options; draft changes require approval again. | Confirmed by user. |
 | Define an SOP for how AI builds a learning plan before proceeding to the child's lesson design. | Requested by user; SOP contents await approval. |
 | First build a simple mobile frontend and backend for parent sign-up, login, and child-profile creation; add AI later. | Confirmed by user; supersedes the immediate focus on the AI planning SOP. |
 | Child profiles contain nickname, age bucket, default language, and country of residence. Age buckets are 3–5, 6–8, and 9–12. | Confirmed by user. |
