@@ -22,7 +22,7 @@ Build a mobile prototype with frontend and backend for:
 
 Google Gemini is the selected AI provider. “Learning adventure” is the child-facing name for a learning plan. The user directed implementation of parent chat → proposed plan → explicit parent approval, with revisions through chat.
 
-Child assessments, lesson execution, and gamification remain outside the current implementation. The user has requested completed-plan reopening and per-plan progress and assessment indicators; their behavior and calculations are still being designed.
+Child assessments, lesson execution, and gamification remain unimplemented. The user has defined a 20-question assessment for each learning step, with at least 80% correct required to complete the step; retry behavior and grade presentation still need decisions.
 
 The user has specified the authentication options, child-profile fields, and age buckets below and selected a **simple and calm** visual style. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
 
@@ -96,8 +96,9 @@ No particular language or country is assumed as a default.
 
 - Parents can choose to resume a completed adventure as Active or return it to Draft for changes; draft changes require parent approval again.
 - Completion percentage is based on completed learning steps divided by total steps, counting each step equally.
+- A learning step is complete only after its 20-question assessment is passed with at least 80% correct (16 of 20).
 - Show an assessment grade only when a real assessment result exists; never infer or fabricate a grade.
-- Decisions still needed: who marks steps complete and how an earned grade should be presented.
+- Decisions still needed: what happens after a score below 80% and how an earned grade should be presented.
 
 ### Future product direction
 
@@ -118,6 +119,7 @@ No particular language or country is assumed as a default.
 - Parent-facing learning-plan creation is chat-based.
 - The conversation includes suggestions and agreement with the parent on both the plan and its duration.
 - After agreement, the child learns through the plan and progress is tracked along the way.
+- Each learning step has a 20-question assessment; at least 80% correct marks that step complete.
 - A short starting-level assessment is optional and requires the parent's agreement. Declining it does not block planning; the parent drives the starting-level decision instead.
 - The app suggests the plan elements below. Parents can accept the suggestions or adjust them before agreeing to the plan.
 
@@ -235,7 +237,7 @@ The assistant previously suggested the following. These are not requirements or 
 - What format and length should the optional short assessment have?
 - How should the suggested plan be presented, adjusted, and explicitly agreed to within the chat-based flow?
 - How should existing plans be updated, and who approves changes?
-- Who should mark a learning step complete?
+- What should happen when a step assessment is below 80%?
 - What form of grade should appear when an assessment has actually been completed?
 - What kinds of interactive activities and gamification should be used?
 - What progress information should parents see?
@@ -266,7 +268,7 @@ The assistant previously suggested the following. These are not requirements or 
 | Offer a short child assessment only with parent agreement; if declined, let the parent drive the starting-level decision. | Confirmed by user. |
 | Suggest plan goals, duration and schedule, learning steps, activity approach, and success criteria; let the parent choose and adjust before agreeing. | Confirmed by user. |
 | Reopening a completed adventure offers both resume-as-Active and return-to-Draft-for-changes options; draft changes require approval again. | Confirmed by user. |
-| Show plan-list progress as completed learning steps divided by total steps; show a grade only after an actual assessment. | Confirmed by user; who marks steps complete and grade format remain open. |
+| Show plan-list progress as completed steps divided by total steps; a step passes at 80% or higher on a 20-question assessment. | Confirmed by user; retry behavior and grade format remain open. |
 | Define an SOP for how AI builds a learning plan before proceeding to the child's lesson design. | Requested by user; SOP contents await approval. |
 | First build a simple mobile frontend and backend for parent sign-up, login, and child-profile creation; add AI later. | Confirmed by user; supersedes the immediate focus on the AI planning SOP. |
 | Child profiles contain nickname, age bucket, default language, and country of residence. Age buckets are 3–5, 6–8, and 9–12. | Confirmed by user. |
