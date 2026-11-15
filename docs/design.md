@@ -12,13 +12,17 @@
 
 ### Current MVP scope
 
-Build a simple working mobile prototype with frontend and backend for:
+Build a mobile prototype with frontend and backend for:
 
 - Parent sign-up.
 - Parent login.
 - Creating a child's profile.
+- Subject screens with Active and Completed learning adventures.
+- An AI planning chat for adding a learning adventure.
 
-AI will be added later. AI planning, assessments, child learning activities, gamification, and progress tracking are outside this MVP. The broader requirements below are retained as future product direction, not permission to implement them now.
+Google Gemini is the selected AI provider. “Learning adventure” is the child-facing name for a learning plan. The learning-plan creation SOP and required plan fields still need the user's decisions before implementation.
+
+Child assessments, lesson execution, gamification, and detailed progress tracking remain outside this MVP. Active and Completed lists refer to the status of saved learning adventures.
 
 The user has specified the authentication options, child-profile fields, and age buckets below and selected a **simple and calm** visual style. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
 
