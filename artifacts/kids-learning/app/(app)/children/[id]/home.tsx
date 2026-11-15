@@ -1,12 +1,11 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Button, Notice, Screen, Title, TopBar } from '@/components/ui';
+import { Button, Notice, Screen, TopBar } from '@/components/ui';
 import { useColors } from '@/hooks/useColors';
 import { fonts } from '@/constants/fonts';
 import { useMyChildren } from '@/lib/session';
-import { ageLabel } from '@/lib/reference-data';
 
 const SUBJECTS = [
   { title: 'Math', icon: 'calculator-variant', activePlans: 0 },
@@ -21,7 +20,6 @@ export default function ChildHome() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data, isLoading, isError, refetch } = useMyChildren();
   const child = data?.find((profile) => String(profile.id) === id);
-  const backToProfile = () => router.replace({ pathname: '/children/[id]', params: { id } });
   const backToChildren = () => router.replace('/children');
 
   let content: React.ReactNode;
@@ -49,17 +47,6 @@ export default function ChildHome() {
   } else {
     content = (
       <View style={styles.stack} testID="child-home-content">
-        <View style={[styles.welcome, { backgroundColor: c.secondary, borderRadius: c.radius + 8 }]}>
-          <View style={[styles.icon, { backgroundColor: c.background }]}>
-            <Feather name="home" size={24} color={c.primary} />
-          </View>
-          <Text accessibilityRole="header" style={[styles.greeting, { color: c.foreground }]}>
-            Welcome home, {child.nickname}
-          </Text>
-          <Text style={[styles.age, { color: c.secondaryForeground }]}>
-            Ages {ageLabel(child.ageBucket)}
-          </Text>
-        </View>
         <Text style={[styles.subjectHeading, { color: c.foreground }]}>Your subjects</Text>
         <View style={styles.topicList} testID="topic-list">
           {SUBJECTS.map((subject) => (
@@ -89,28 +76,42 @@ export default function ChildHome() {
             </View>
           ))}
         </View>
-        <View style={[styles.note, { backgroundColor: c.secondary, borderRadius: c.radius + 4 }]}>
-          <Text style={[styles.noteTitle, { color: c.foreground }]}>Every subject has its own journey</Text>
-          <Text style={[styles.helper, { color: c.mutedForeground }]}>
-            New learning activities will arrive in a future update.
-          </Text>
-        </View>
       </View>
     );
   }
 
   return (
-    <Screen
-      testID="child-home-screen"
-      footer={child ? <Button label="View profile" variant="secondary" onPress={backToProfile} testID="child-home-profile-button" /> : null}
-    >
+    <Screen testID="child-home-screen">
       <TopBar
         onBack={backToChildren}
-        title={child ? `${child.nickname}’s home` : 'Child home'}
+        titleContent={
+          <View style={styles.headerTitle} testID="child-home-title">
+            <View style={[styles.headerIcon, { backgroundColor: c.secondary }]}>
+              <Feather name="smile" size={19} color={c.primary} />
+            </View>
+            <Text
+              accessibilityRole="header"
+              numberOfLines={1}
+              style={[styles.childName, { color: c.foreground }]}
+            >
+              {child?.nickname ?? 'Child'}
+            </Text>
+          </View>
+        }
+        right={child ? (
+          <Pressable
+            onPress={() => router.push({ pathname: '/children/[id]/edit', params: { id: String(child.id), returnTo: 'home' } })}
+            accessibilityRole="button"
+            accessibilityLabel="Edit child profile"
+            testID="edit-child-home-button"
+            hitSlop={8}
+            style={({ pressed }) => [styles.editAction, { opacity: pressed ? 0.65 : 1 }]}
+          >
+            <Feather name="edit-2" size={15} color={c.primary} />
+            <Text style={[styles.editText, { color: c.primary }]}>Edit</Text>
+          </Pressable>
+        ) : null}
       />
-      {child && !isError && !isLoading ? (
-      <Title sub="Each subject brings something new to discover.">Welcome, {child.nickname}</Title>
-      ) : null}
       {content}
     </Screen>
   );
@@ -119,10 +120,6 @@ export default function ChildHome() {
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
   stack: { gap: 16 },
-  welcome: { alignItems: 'center', paddingHorizontal: 24, paddingVertical: 30 },
-  icon: { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center', marginBottom: 14 },
-  greeting: { fontFamily: fonts.semibold, fontSize: 24, lineHeight: 32, textAlign: 'center' },
-  age: { fontFamily: fonts.medium, fontSize: 14, marginTop: 8 },
   subjectHeading: { fontFamily: fonts.semibold, fontSize: 19 },
   topicList: { gap: 12 },
   topicCard: { flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, padding: 14, minHeight: 86 },
@@ -134,7 +131,10 @@ const styles = StyleSheet.create({
   planCount: { minWidth: 66, alignItems: 'center', justifyContent: 'center' },
   planNumber: { fontFamily: fonts.semibold, fontSize: 19, lineHeight: 24 },
   planLabel: { fontFamily: fonts.regular, fontSize: 11, textAlign: 'center', lineHeight: 14 },
-  note: { padding: 18, gap: 6 },
-  noteTitle: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 22 },
   helper: { fontFamily: fonts.regular, fontSize: 15, lineHeight: 22 },
+  headerTitle: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 9, marginLeft: 10, marginRight: 6 },
+  headerIcon: { width: 32, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  childName: { flexShrink: 1, fontFamily: fonts.semibold, fontSize: 21, lineHeight: 27, letterSpacing: -0.3 },
+  editAction: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingVertical: 6, paddingHorizontal: 4 },
+  editText: { fontFamily: fonts.medium, fontSize: 14 },
 });

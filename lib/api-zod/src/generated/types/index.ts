@@ -13,3 +13,5 @@ export * from './createChildInputAgeBucket';
 export * from './error';
 export * from './healthStatus';
 export * from './unauthorizedResponse';
+export * from './updateChildInput';
+export * from './updateChildInputAgeBucket';

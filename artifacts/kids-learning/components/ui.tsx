@@ -59,7 +59,17 @@ export function Screen({
   );
 }
 
-export function TopBar({ onBack, right, title }: { onBack?: () => void; right?: React.ReactNode; title?: string }) {
+export function TopBar({
+  onBack,
+  right,
+  title,
+  titleContent,
+}: {
+  onBack?: () => void;
+  right?: React.ReactNode;
+  title?: string;
+  titleContent?: React.ReactNode;
+}) {
   const c = useColors();
   return (
     <View style={styles.topBar}>
@@ -77,7 +87,11 @@ export function TopBar({ onBack, right, title }: { onBack?: () => void; right?: 
       ) : (
         <View style={styles.iconSpacer} />
       )}
-      {title ? <Text style={[styles.topTitle, { color: c.mutedForeground }]}>{title}</Text> : null}
+      {titleContent !== undefined
+        ? titleContent
+        : title
+          ? <Text style={[styles.topTitle, { color: c.mutedForeground }]}>{title}</Text>
+          : null}
       <View style={{ minWidth: 40, alignItems: 'flex-end' }}>{right}</View>
     </View>
   );

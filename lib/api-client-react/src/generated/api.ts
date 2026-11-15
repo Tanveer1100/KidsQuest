@@ -29,7 +29,8 @@ import type {
   CreateChildInput,
   Error,
   HealthStatus,
-  UnauthorizedResponse
+  UnauthorizedResponse,
+  UpdateChildInput
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -246,6 +247,95 @@ export const useCreateChild = <TError = ErrorType<Error | UnauthorizedResponse>,
         TContext
       > => {
       return useMutation(getCreateChildMutationOptions(options), queryClient);
+    }
+
+export const getUpdateChildUrl = (id: number,) => {
+
+
+
+
+  return `/api/children/${id}`
+}
+
+/**
+ * @summary Update editable details of a child profile
+ */
+export const updateChild = async (id: number,
+    updateChildInput: UpdateChildInput, options?: Parameters<typeof customFetch>[1]): Promise<ChildProfile> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<ChildProfile>(getUpdateChildUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(updateChildInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateChildMutationKey = () => ['updateChild'] as const;
+
+export const getUpdateChildMutationOptions = <TError = ErrorType<Error | UnauthorizedResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateChild>>, TError,UpdateChildMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateChild>>, TError,UpdateChildMutationVariables, TContext> => {
+
+const mutationKey = getUpdateChildMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateChild>>, UpdateChildMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateChild(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateChildMutationResult = NonNullable<Awaited<ReturnType<typeof updateChild>>>
+    export type UpdateChildMutationBody = BodyType<UpdateChildInput>
+    export type UpdateChildMutationError = ErrorType<Error | UnauthorizedResponse>
+    export type UpdateChildMutationVariables = {id: number;data: BodyType<UpdateChildInput>}
+
+    /**
+ * @summary Update editable details of a child profile
+ */
+export const useUpdateChild = <TError = ErrorType<Error | UnauthorizedResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateChild>>, TError,UpdateChildMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateChild>>,
+        TError,
+        UpdateChildMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateChildMutationOptions(options), queryClient);
     }
 
 export const getHealthCheckUrl = () => {

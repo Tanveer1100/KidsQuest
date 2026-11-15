@@ -65,8 +65,10 @@ No particular language or country is assumed as a default.
 - After a profile is saved, provide a clear navigation button to open that child's home page.
 - After sign-in, show the parent's saved child profiles as a list, with an “Add profile” action as the last item.
 - Selecting a child profile opens that child's home page directly.
-- The child home page is a welcome screen using the child's nickname and age range. It clearly indicates that learning activities are not part of the current MVP.
-- The saved profile view includes a button to the child's home, and the home view has a path back to the profile.
+- The child home page shows only the child's name in the top bar, followed by the subject list. The current MVP has no learning activities.
+- The saved child-details view includes a button to the child's home; the child-home back button returns to the profile list.
+- The child profile and child home top bars provide an Edit action. On the child home, show the nickname in larger bold text with a friendly icon. Parents can update age range, default language, and country of residence; the profile nickname cannot be changed.
+- Keep the child-home header concise: show only the child's name, with no “Welcome home” or “Home” text, no repeated greeting, and no “View profile” footer button. Use the back arrow to return to the profile list.
 - The child home page should show a vertical topic list with an icon for Math, English reading, Science, and a second language.
 - Each subject tile should show the number of active learning plans for that subject. This depends on learning plans being created and tracked; do not show invented counts.
 - Subject progress language should feel gentle, playful, and encouraging, not like a judgment of the child or parent. Do not invent a measured grade or progress result.

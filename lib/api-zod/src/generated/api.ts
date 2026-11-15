@@ -51,6 +51,38 @@ export const CreateChildResponse = zod.object({
 
 
 /**
+ * @summary Update editable details of a child profile
+ */
+
+
+
+export const UpdateChildParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const updateChildBodyDefaultLanguageMin = 2;
+export const updateChildBodyDefaultLanguageMax = 80;
+
+export const updateChildBodyCountryOfResidenceRegExp = new RegExp('^[A-Z]{2}$');
+
+
+export const UpdateChildBody = zod.object({
+  "ageBucket": zod.enum(['3-5', '6-8', '9-12']),
+  "defaultLanguage": zod.string().min(updateChildBodyDefaultLanguageMin).max(updateChildBodyDefaultLanguageMax),
+  "countryOfResidence": zod.string().regex(updateChildBodyCountryOfResidenceRegExp)
+})
+
+export const UpdateChildResponse = zod.object({
+  "id": zod.number().int(),
+  "nickname": zod.string(),
+  "ageBucket": zod.enum(['3-5', '6-8', '9-12']),
+  "defaultLanguage": zod.string(),
+  "countryOfResidence": zod.string(),
+  "createdAt": zod.coerce.date()
+})
+
+
+/**
  * Returns server health status
  * @summary Health check
  */

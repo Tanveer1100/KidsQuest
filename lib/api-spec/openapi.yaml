@@ -54,6 +54,45 @@ paths:
                 $ref: "#/components/schemas/Error"
         "401":
           $ref: "#/components/responses/Unauthorized"
+  /children/{id}:
+    patch:
+      operationId: updateChild
+      tags: [children]
+      summary: Update editable details of a child profile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateChildInput"
+      responses:
+        "200":
+          description: Updated child profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChildProfile"
+        "400":
+          description: Invalid profile fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          description: Profile not found for the signed-in parent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /healthz:
     get:
       operationId: healthCheck
@@ -103,6 +142,21 @@ components:
           type: string
           pattern: "^[A-Z]{2}$"
           description: ISO 3166-1 alpha-2 country code
+    UpdateChildInput:
+      type: object
+      additionalProperties: false
+      required: [ageBucket, defaultLanguage, countryOfResidence]
+      properties:
+        ageBucket:
+          type: string
+          enum: ["3-5", "6-8", "9-12"]
+        defaultLanguage:
+          type: string
+          minLength: 2
+          maxLength: 80
+        countryOfResidence:
+          type: string
+          pattern: "^[A-Z]{2}$"
     ChildProfile:
       type: object
       required: [id, nickname, ageBucket, defaultLanguage, countryOfResidence, createdAt]

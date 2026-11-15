@@ -38,6 +38,26 @@ export interface CreateChildInput {
   countryOfResidence: string;
 }
 
+export type UpdateChildInputAgeBucket = typeof UpdateChildInputAgeBucket[keyof typeof UpdateChildInputAgeBucket];
+
+
+export const UpdateChildInputAgeBucket = {
+  '3-5': '3-5',
+  '6-8': '6-8',
+  '9-12': '9-12',
+} as const;
+
+export interface UpdateChildInput {
+  ageBucket: UpdateChildInputAgeBucket;
+  /**
+     * @minLength 2
+     * @maxLength 80
+     */
+  defaultLanguage: string;
+  /** @pattern ^[A-Z]{2}$ */
+  countryOfResidence: string;
+}
+
 export type ChildProfileAgeBucket = typeof ChildProfileAgeBucket[keyof typeof ChildProfileAgeBucket];
 
 

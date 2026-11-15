@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -12,7 +12,7 @@ import { ageLabel, countryName } from '@/lib/reference-data';
 export default function ChildProfileScreen() {
   const c = useColors();
   const router = useRouter();
-  const { id, saved } = useLocalSearchParams<{ id: string; saved?: string }>();
+  const { id, saved, updated } = useLocalSearchParams<{ id: string; saved?: string; updated?: string }>();
   const { data, isLoading, isError, refetch } = useMyChildren();
   const child = data?.find((ch) => String(ch.id) === id);
   const back = () => router.replace('/children');
@@ -58,10 +58,10 @@ export default function ChildProfileScreen() {
     ];
     body = (
       <>
-        {saved ? (
+        {saved || updated ? (
           <Animated.View entering={Platform.OS === 'web' ? undefined : FadeInDown.duration(450)} style={[styles.saved, { backgroundColor: c.secondary, borderRadius: c.radius }]} testID="saved-banner">
             <Feather name="check" size={16} color={c.success} />
-            <Text style={[styles.savedText, { color: c.secondaryForeground }]}>Profile saved</Text>
+            <Text style={[styles.savedText, { color: c.secondaryForeground }]}>{updated ? 'Profile updated' : 'Profile saved'}</Text>
           </Animated.View>
         ) : null}
         <Animated.View entering={Platform.OS === 'web' ? undefined : FadeInDown.delay(80).duration(500)} style={styles.head}>
@@ -85,7 +85,23 @@ export default function ChildProfileScreen() {
 
   return (
     <Screen testID="child-profile-screen" footer={footer}>
-      <TopBar onBack={back} title="Profile" />
+      <TopBar
+        onBack={back}
+        title="Profile"
+        right={child ? (
+          <Pressable
+            onPress={() => router.push({ pathname: '/children/[id]/edit', params: { id: String(child.id), returnTo: 'profile' } })}
+            accessibilityRole="button"
+            accessibilityLabel="Edit child profile"
+            testID="edit-child-profile-button"
+            hitSlop={8}
+            style={({ pressed }) => [styles.editAction, { opacity: pressed ? 0.65 : 1 }]}
+          >
+            <Feather name="edit-2" size={15} color={c.primary} />
+            <Text style={[styles.editText, { color: c.primary }]}>Edit</Text>
+          </Pressable>
+        ) : null}
+      />
       {body}
     </Screen>
   );
@@ -104,4 +120,6 @@ const styles = StyleSheet.create({
   rowLabel: { fontFamily: fonts.regular, fontSize: 13, marginBottom: 4 },
   rowValue: { fontFamily: fonts.medium, fontSize: 17 },
   private: { fontFamily: fonts.regular, fontSize: 13, marginTop: 16, textAlign: 'center' },
+  editAction: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingVertical: 6, paddingHorizontal: 4 },
+  editText: { fontFamily: fonts.medium, fontSize: 14 },
 });
