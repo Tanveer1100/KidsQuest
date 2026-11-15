@@ -20,7 +20,7 @@ Build a simple working mobile prototype with frontend and backend for:
 
 AI will be added later. AI planning, assessments, child learning activities, gamification, and progress tracking are outside this MVP. The broader requirements below are retained as future product direction, not permission to implement them now.
 
-The user has specified the authentication options, child-profile fields, and age buckets below. Visual design still needs the user's decisions. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
+The user has specified the authentication options, child-profile fields, and age buckets below and selected a **simple and calm** visual style. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
 
 #### Parent authentication
 
@@ -123,7 +123,7 @@ The assistant previously suggested the following. These are not requirements or 
 
 ### MVP decisions
 
-- What visual direction should the prototype use?
+- No additional MVP design decisions are currently blocking the agreed build. Changes beyond this scope require the user's direction.
 
 ### Future learning features
 
@@ -140,9 +140,12 @@ The assistant previously suggested the following. These are not requirements or 
 
 ## Current implementation status
 
-- No mobile app screens or features have been built.
-- AI access was enabled before development was paused.
-- Enabling AI access does not constitute approval of an AI provider or product design.
+- Built the agreed mobile MVP with public welcome, parent sign-up, email-code verification, login, Google authentication integration, logout, child-profile creation, and a saved-profile list/detail view.
+- Profiles are stored in the backend database, linked to the signed-in parent. Profile fields match the approved requirements and no age bucket, language, or country is preselected.
+- The implementation uses the approved simple and calm direction. "Kids Learning" is a descriptive working title, not a separately approved permanent brand.
+- AI access was previously enabled, but the MVP contains no AI features or AI calls.
+- Verification: workspace type checks, Expo dependency checks, and iOS/Android JavaScript exports passed. The backend health endpoint responds and signed-out profile reads/creates are rejected.
+- Full sign-up/code delivery, Google account authorization, signed-in profile creation, and physical-device behavior have not been verified end to end. JavaScript exports are not proof of device behavior or App Store readiness.
 
 ## Decision record
 
@@ -157,3 +160,4 @@ The assistant previously suggested the following. These are not requirements or 
 | First build a simple mobile frontend and backend for parent sign-up, login, and child-profile creation; add AI later. | Confirmed by user; supersedes the immediate focus on the AI planning SOP. |
 | Child profiles contain nickname, age bucket, default language, and country of residence. Age buckets are 3–5, 6–8, and 9–12. | Confirmed by user. |
 | Offer email/password with email verification by a sent code, or Google as the identity provider. | Confirmed by user. |
+| Use a simple and calm visual style for the MVP. | Confirmed by user. |

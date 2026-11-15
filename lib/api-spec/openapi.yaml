@@ -10,7 +10,50 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: children
+    description: Parent-owned child profiles
 paths:
+  /children:
+    get:
+      operationId: listChildren
+      tags: [children]
+      summary: List the signed-in parent's child profiles
+      responses:
+        "200":
+          description: Child profiles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChildProfile"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+    post:
+      operationId: createChild
+      tags: [children]
+      summary: Create a child profile for the signed-in parent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateChildInput"
+      responses:
+        "201":
+          description: Saved child profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChildProfile"
+        "400":
+          description: Invalid profile fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
   /healthz:
     get:
       operationId: healthCheck
@@ -25,7 +68,59 @@ paths:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
 components:
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
   schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+    CreateChildInput:
+      type: object
+      additionalProperties: false
+      required: [nickname, ageBucket, defaultLanguage, countryOfResidence]
+      properties:
+        nickname:
+          type: string
+          minLength: 1
+          maxLength: 40
+        ageBucket:
+          type: string
+          enum: ["3-5", "6-8", "9-12"]
+        defaultLanguage:
+          type: string
+          minLength: 2
+          maxLength: 80
+          description: Selected language name; no preselected default
+        countryOfResidence:
+          type: string
+          pattern: "^[A-Z]{2}$"
+          description: ISO 3166-1 alpha-2 country code
+    ChildProfile:
+      type: object
+      required: [id, nickname, ageBucket, defaultLanguage, countryOfResidence, createdAt]
+      properties:
+        id:
+          type: integer
+        nickname:
+          type: string
+        ageBucket:
+          type: string
+          enum: ["3-5", "6-8", "9-12"]
+        defaultLanguage:
+          type: string
+        countryOfResidence:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
     HealthStatus:
       type: object
       properties:

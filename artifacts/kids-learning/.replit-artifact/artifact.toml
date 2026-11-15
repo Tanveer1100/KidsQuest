@@ -1,0 +1,24 @@
+kind = "mobile"
+previewPath = "/"
+title = "Kids Learning"
+description = "A calm parent-facing mobile MVP for secure email/password sign-up with email-code verification or Google sign-in, and creating and viewing saved child profiles with nickname, age bucket, default language and country of residence. AI learning features are deferred."
+version = "1.0.0"
+id = "artifacts/kids-learning"
+router = "expo-domain"
+
+[[services]]
+name = "expo"
+ensurePreviewReachable = "/status"
+paths = [ "/" ]
+localPort = 18691
+
+[services.development]
+run = "pnpm --filter @workspace/kids-learning run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/kids-learning", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/kids-learning", "run", "serve" ]
+
+[services.env]
+PORT = "18691"
+BASE_PATH = "/"
