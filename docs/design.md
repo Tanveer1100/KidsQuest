@@ -95,9 +95,9 @@ No particular language or country is assumed as a default.
 #### Requested plan history and progress additions — design pending
 
 - Parents can choose to resume a completed adventure as Active or return it to Draft for changes; draft changes require parent approval again.
-- Show a completion percentage on each adventure in the subject's plan list.
+- Completion percentage is based on completed learning steps divided by total steps, counting each step equally.
 - Show an assessment grade only when a real assessment result exists; never infer or fabricate a grade.
-- Decisions still needed: how completion percentage is calculated and how an earned grade should be presented.
+- Decisions still needed: who marks steps complete and how an earned grade should be presented.
 
 ### Future product direction
 
@@ -136,6 +136,8 @@ Each suggested learning plan includes:
 The parent chooses whether to accept the suggested plan or adjust these elements. The app must not treat a suggestion as the parent's agreement. The child begins the plan after the parent agrees.
 
 When reopening a completed adventure, offer both choices: resume the approved plan as Active, or return it to Draft for changes and require approval again.
+
+On each adventure in a subject's plan list, show completion percentage as completed learning steps divided by total steps, with each step counted equally. Show an assessment grade only when an actual assessment result is available.
 
 The exact presentation and adjustment controls have not been decided.
 
@@ -233,7 +235,7 @@ The assistant previously suggested the following. These are not requirements or 
 - What format and length should the optional short assessment have?
 - How should the suggested plan be presented, adjusted, and explicitly agreed to within the chat-based flow?
 - How should existing plans be updated, and who approves changes?
-- Should progress percentage be based on completed learning steps, completed sessions, or another measure?
+- Who should mark a learning step complete?
 - What form of grade should appear when an assessment has actually been completed?
 - What kinds of interactive activities and gamification should be used?
 - What progress information should parents see?
@@ -264,6 +266,7 @@ The assistant previously suggested the following. These are not requirements or 
 | Offer a short child assessment only with parent agreement; if declined, let the parent drive the starting-level decision. | Confirmed by user. |
 | Suggest plan goals, duration and schedule, learning steps, activity approach, and success criteria; let the parent choose and adjust before agreeing. | Confirmed by user. |
 | Reopening a completed adventure offers both resume-as-Active and return-to-Draft-for-changes options; draft changes require approval again. | Confirmed by user. |
+| Show plan-list progress as completed learning steps divided by total steps; show a grade only after an actual assessment. | Confirmed by user; who marks steps complete and grade format remain open. |
 | Define an SOP for how AI builds a learning plan before proceeding to the child's lesson design. | Requested by user; SOP contents await approval. |
 | First build a simple mobile frontend and backend for parent sign-up, login, and child-profile creation; add AI later. | Confirmed by user; supersedes the immediate focus on the AI planning SOP. |
 | Child profiles contain nickname, age bucket, default language, and country of residence. Age buckets are 3–5, 6–8, and 9–12. | Confirmed by user. |
