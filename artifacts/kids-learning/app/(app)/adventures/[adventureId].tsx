@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import { KeyboardStickyView } from 'react-native-keyboard-controller';
 import {
   useApproveAdventure,
   useCompleteAdventure,
@@ -175,7 +175,7 @@ function PlanningChat({ adventure, onBack, refetch }: { adventure: Adventure; on
   return (
     <Screen scroll={false} testID="adventure-screen">
       <Header adventure={adventure} onBack={onBack} />
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1, minHeight: 0 }} keyboardVerticalOffset={0}>
+      <View style={{ flex: 1, minHeight: 0 }}>
         <FlatList
           inverted
           data={inverted}
@@ -211,37 +211,39 @@ function PlanningChat({ adventure, onBack, refetch }: { adventure: Adventure; on
             );
           }}
         />
-        <View style={[styles.inputRow, { borderTopColor: c.border }]} testID="chat-input-row">
-          <View style={[styles.inputWrap, { backgroundColor: c.card, borderColor: c.input, borderRadius: c.radius }]}>
-            <TextInput
-              value={text}
-              onChangeText={setText}
-              placeholder="Message the planner"
-              placeholderTextColor={c.mutedForeground}
-              multiline
-              maxLength={MAX}
-              editable={!send.isPending && !approve.isPending}
-              accessibilityLabel="Planning message"
-              testID="chat-input"
-              style={[styles.input, { color: c.foreground }]}
-            />
+        <KeyboardStickyView style={{ backgroundColor: c.background }} testID="chat-keyboard-composer">
+          <View style={[styles.inputRow, { borderTopColor: c.border }]} testID="chat-input-row">
+            <View style={[styles.inputWrap, { backgroundColor: c.card, borderColor: c.input, borderRadius: c.radius }]}>
+              <TextInput
+                value={text}
+                onChangeText={setText}
+                placeholder="Message the planner"
+                placeholderTextColor={c.mutedForeground}
+                multiline
+                maxLength={MAX}
+                editable={!send.isPending && !approve.isPending}
+                accessibilityLabel="Planning message"
+                testID="chat-input"
+                style={[styles.input, { color: c.foreground }]}
+              />
+            </View>
+            <Pressable
+              onPress={submit}
+              disabled={!text.trim() || send.isPending || approve.isPending}
+              accessibilityRole="button"
+              accessibilityLabel="Send message"
+              accessibilityState={{ disabled: !text.trim() || send.isPending || approve.isPending }}
+              testID="chat-send"
+              style={({ pressed }) => [styles.send, { backgroundColor: c.primary, opacity: !text.trim() || send.isPending || approve.isPending ? 0.45 : pressed ? 0.8 : 1 }]}
+            >
+              <Feather name="arrow-up" size={18} color={c.primaryForeground} />
+            </Pressable>
           </View>
-          <Pressable
-            onPress={submit}
-            disabled={!text.trim() || send.isPending || approve.isPending}
-            accessibilityRole="button"
-            accessibilityLabel="Send message"
-            accessibilityState={{ disabled: !text.trim() || send.isPending || approve.isPending }}
-            testID="chat-send"
-            style={({ pressed }) => [styles.send, { backgroundColor: c.primary, opacity: !text.trim() || send.isPending || approve.isPending ? 0.45 : pressed ? 0.8 : 1 }]}
-          >
-            <Feather name="arrow-up" size={18} color={c.primaryForeground} />
-          </Pressable>
-        </View>
-        {text.length > MAX - 150 ? (
-          <Text style={[styles.counter, { color: c.mutedForeground }]}>{text.length}/{MAX}</Text>
-        ) : null}
-      </KeyboardAvoidingView>
+          {text.length > MAX - 150 ? (
+            <Text style={[styles.counter, { color: c.mutedForeground }]}>{text.length}/{MAX}</Text>
+          ) : null}
+        </KeyboardStickyView>
+      </View>
     </Screen>
   );
 }
