@@ -22,7 +22,7 @@ Build a mobile prototype with frontend and backend for:
 
 Google Gemini is the selected AI provider. “Learning adventure” is the child-facing name for a learning plan. The user directed implementation of parent chat → proposed plan → explicit parent approval, with revisions through chat.
 
-Child assessments, lesson execution, gamification, and detailed progress tracking remain outside this MVP. Active and Completed lists refer to the status of saved learning adventures.
+Child assessments, lesson execution, and gamification remain outside the current implementation. The user has requested completed-plan reopening and per-plan progress and assessment indicators; their behavior and calculations are still being designed.
 
 The user has specified the authentication options, child-profile fields, and age buckets below and selected a **simple and calm** visual style. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
 
@@ -91,6 +91,13 @@ No particular language or country is assumed as a default.
 - The Active list shows active adventures and resumable planning drafts, clearly marked “Draft, not active”, plus an “Add a learning adventure” action that opens the AI planning chat.
 - Selecting a subject opens a separate subject screen with Active and Completed learning-adventure lists.
 - A next planned session or recent positive learning win could be considered later, but these additions are not approved.
+
+#### Requested plan history and progress additions — design pending
+
+- Add a parent-facing option to reopen a completed learning adventure.
+- Show a completion percentage on each adventure in the subject's plan list.
+- Show an assessment grade only when a real assessment result exists; never infer or fabricate a grade.
+- Decisions still needed: what reopening does, how completion percentage is calculated, and how an earned grade should be presented.
 
 ### Future product direction
 
@@ -224,6 +231,9 @@ The assistant previously suggested the following. These are not requirements or 
 - What format and length should the optional short assessment have?
 - How should the suggested plan be presented, adjusted, and explicitly agreed to within the chat-based flow?
 - How should existing plans be updated, and who approves changes?
+- Should reopening a completed adventure resume it as active, return it to draft for changes, or offer both?
+- Should progress percentage be based on completed learning steps, completed sessions, or another measure?
+- What form of grade should appear when an assessment has actually been completed?
 - What kinds of interactive activities and gamification should be used?
 - What progress information should parents see?
 - What privacy, parental-access, and child-safety requirements should apply?
