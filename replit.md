@@ -34,7 +34,9 @@ _Describe the high-level user-facing capabilities of this app once they exist._
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Work only step by step. The user makes all design decisions.
+- Maintain requirements, approved decisions, suggestions, and open questions in `docs/design.md` as the discussion progresses.
+- Do not treat assistant suggestions as approved decisions or start development without the user's direction.
 
 ## Gotchas
 
