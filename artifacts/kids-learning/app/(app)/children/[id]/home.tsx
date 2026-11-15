@@ -6,13 +6,8 @@ import { Button, Notice, Screen, TopBar } from '@/components/ui';
 import { useColors } from '@/hooks/useColors';
 import { fonts } from '@/constants/fonts';
 import { useMyChildren } from '@/lib/session';
+import { SUBJECT_META, useChildAdventures } from '@/lib/adventures';
 
-const SUBJECTS = [
-  { title: 'Math', icon: 'calculator-variant', activePlans: 0 },
-  { title: 'English reading', icon: 'book-open-page-variant', activePlans: 0 },
-  { title: 'Science', icon: 'flask-outline', activePlans: 0 },
-  { title: 'Second language', icon: 'translate', activePlans: 0 },
-] as const;
 
 export default function ChildHome() {
   const c = useColors();
@@ -20,6 +15,9 @@ export default function ChildHome() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data, isLoading, isError, refetch } = useMyChildren();
   const child = data?.find((profile) => String(profile.id) === id);
+  const adventures = useChildAdventures(Number(id));
+  const activeCount = (slug: string) =>
+    (adventures.data ?? []).filter((a) => a.subject === slug && a.status === 'active').length;
   const backToChildren = () => router.replace('/children');
 
   let content: React.ReactNode;
@@ -49,16 +47,17 @@ export default function ChildHome() {
       <View style={styles.stack} testID="child-home-content">
         <Text style={[styles.subjectHeading, { color: c.foreground }]}>Your subjects</Text>
         <View style={styles.topicList} testID="topic-list">
-          {SUBJECTS.map((subject) => (
-            <View
-              key={subject.title}
-              accessible
-              accessibilityLabel={`${subject.title}. Ready to explore. ${subject.activePlans} active learning plans.`}
-              style={[
+          {SUBJECT_META.map((subject) => (
+            <Pressable
+              key={subject.slug}
+              onPress={() => router.push({ pathname: '/children/[id]/subjects/[subject]', params: { id: String(child.id), subject: subject.slug } })}
+              accessibilityRole="button"
+              accessibilityLabel={`${subject.title}. ${adventures.data ? `${activeCount(subject.slug)} active learning adventures.` : ''}`}
+              style={({ pressed }) => [
                 styles.topicCard,
-                { backgroundColor: c.card, borderColor: c.border, borderRadius: c.radius + 4 },
+                { backgroundColor: c.card, borderColor: c.border, borderRadius: c.radius + 4, opacity: pressed ? 0.82 : 1 },
               ]}
-              testID={`topic-${subject.title.toLowerCase().replace(/ /g, '-')}`}
+              testID={`topic-${subject.slug}`}
             >
               <View style={[styles.subjectIcon, { backgroundColor: c.secondary }]}>
                 <MaterialCommunityIcons name={subject.icon} size={22} color={c.primary} />
@@ -70,10 +69,10 @@ export default function ChildHome() {
                 </View>
               </View>
               <View style={styles.planCount}>
-                <Text style={[styles.planNumber, { color: c.foreground }]}>{subject.activePlans}</Text>
-                <Text style={[styles.planLabel, { color: c.mutedForeground }]}>active plans</Text>
+                <Text style={[styles.planNumber, { color: c.foreground }]}>{adventures.data ? activeCount(subject.slug) : '–'}</Text>
+                <Text style={[styles.planLabel, { color: c.mutedForeground }]}>active adventures</Text>
               </View>
-            </View>
+            </Pressable>
           ))}
         </View>
       </View>

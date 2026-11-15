@@ -8,6 +8,350 @@
 import * as zod from 'zod';
 
 
+
+
+
+export const ListAdventuresQueryParams = zod.object({
+  "childId": zod.coerce.number().int().min(1)
+})
+
+export const listAdventuresResponsePlanDurationWeeksMax = 26;
+
+export const listAdventuresResponsePlanSessionsPerWeekMax = 7;
+
+export const listAdventuresResponsePlanMinutesPerSessionMin = 5;
+export const listAdventuresResponsePlanMinutesPerSessionMax = 45;
+
+export const listAdventuresResponsePlanStepsMax = 12;
+
+
+
+export const ListAdventuresResponseItem = zod.object({
+  "id": zod.number().int(),
+  "childId": zod.number().int(),
+  "subject": zod.enum(['math', 'english-reading', 'science', 'second-language']),
+  "status": zod.enum(['draft', 'active', 'completed']),
+  "title": zod.string(),
+  "messages": zod.array(zod.object({
+  "id": zod.string(),
+  "role": zod.enum(['parent', 'assistant']),
+  "text": zod.string(),
+  "blocked": zod.boolean().optional()
+})),
+  "plan": zod.object({
+  "title": zod.string(),
+  "goal": zod.string(),
+  "durationWeeks": zod.number().int().min(1).max(listAdventuresResponsePlanDurationWeeksMax),
+  "sessionsPerWeek": zod.number().int().min(1).max(listAdventuresResponsePlanSessionsPerWeekMax),
+  "minutesPerSession": zod.number().int().min(listAdventuresResponsePlanMinutesPerSessionMin).max(listAdventuresResponsePlanMinutesPerSessionMax),
+  "steps": zod.array(zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "successCriteria": zod.string()
+})).min(1).max(listAdventuresResponsePlanStepsMax),
+  "activityApproach": zod.string(),
+  "successCriteria": zod.string(),
+  "assumptions": zod.array(zod.string())
+}).optional(),
+  "revision": zod.number().int(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date(),
+  "approvedAt": zod.coerce.date().optional(),
+  "completedAt": zod.coerce.date().optional()
+})
+export const ListAdventuresResponse = zod.array(ListAdventuresResponseItem)
+
+
+
+
+
+export const StartAdventureBody = zod.object({
+  "childId": zod.number().int().min(1),
+  "subject": zod.enum(['math', 'english-reading', 'science', 'second-language'])
+})
+
+export const startAdventureResponsePlanDurationWeeksMax = 26;
+
+export const startAdventureResponsePlanSessionsPerWeekMax = 7;
+
+export const startAdventureResponsePlanMinutesPerSessionMin = 5;
+export const startAdventureResponsePlanMinutesPerSessionMax = 45;
+
+export const startAdventureResponsePlanStepsMax = 12;
+
+
+
+export const StartAdventureResponse = zod.object({
+  "id": zod.number().int(),
+  "childId": zod.number().int(),
+  "subject": zod.enum(['math', 'english-reading', 'science', 'second-language']),
+  "status": zod.enum(['draft', 'active', 'completed']),
+  "title": zod.string(),
+  "messages": zod.array(zod.object({
+  "id": zod.string(),
+  "role": zod.enum(['parent', 'assistant']),
+  "text": zod.string(),
+  "blocked": zod.boolean().optional()
+})),
+  "plan": zod.object({
+  "title": zod.string(),
+  "goal": zod.string(),
+  "durationWeeks": zod.number().int().min(1).max(startAdventureResponsePlanDurationWeeksMax),
+  "sessionsPerWeek": zod.number().int().min(1).max(startAdventureResponsePlanSessionsPerWeekMax),
+  "minutesPerSession": zod.number().int().min(startAdventureResponsePlanMinutesPerSessionMin).max(startAdventureResponsePlanMinutesPerSessionMax),
+  "steps": zod.array(zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "successCriteria": zod.string()
+})).min(1).max(startAdventureResponsePlanStepsMax),
+  "activityApproach": zod.string(),
+  "successCriteria": zod.string(),
+  "assumptions": zod.array(zod.string())
+}).optional(),
+  "revision": zod.number().int(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date(),
+  "approvedAt": zod.coerce.date().optional(),
+  "completedAt": zod.coerce.date().optional()
+})
+
+
+
+
+
+export const GetAdventureParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const getAdventureResponsePlanDurationWeeksMax = 26;
+
+export const getAdventureResponsePlanSessionsPerWeekMax = 7;
+
+export const getAdventureResponsePlanMinutesPerSessionMin = 5;
+export const getAdventureResponsePlanMinutesPerSessionMax = 45;
+
+export const getAdventureResponsePlanStepsMax = 12;
+
+
+
+export const GetAdventureResponse = zod.object({
+  "id": zod.number().int(),
+  "childId": zod.number().int(),
+  "subject": zod.enum(['math', 'english-reading', 'science', 'second-language']),
+  "status": zod.enum(['draft', 'active', 'completed']),
+  "title": zod.string(),
+  "messages": zod.array(zod.object({
+  "id": zod.string(),
+  "role": zod.enum(['parent', 'assistant']),
+  "text": zod.string(),
+  "blocked": zod.boolean().optional()
+})),
+  "plan": zod.object({
+  "title": zod.string(),
+  "goal": zod.string(),
+  "durationWeeks": zod.number().int().min(1).max(getAdventureResponsePlanDurationWeeksMax),
+  "sessionsPerWeek": zod.number().int().min(1).max(getAdventureResponsePlanSessionsPerWeekMax),
+  "minutesPerSession": zod.number().int().min(getAdventureResponsePlanMinutesPerSessionMin).max(getAdventureResponsePlanMinutesPerSessionMax),
+  "steps": zod.array(zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "successCriteria": zod.string()
+})).min(1).max(getAdventureResponsePlanStepsMax),
+  "activityApproach": zod.string(),
+  "successCriteria": zod.string(),
+  "assumptions": zod.array(zod.string())
+}).optional(),
+  "revision": zod.number().int(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date(),
+  "approvedAt": zod.coerce.date().optional(),
+  "completedAt": zod.coerce.date().optional()
+})
+
+
+
+
+
+export const SendPlanningMessageParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const sendPlanningMessageBodyMessageMax = 1500;
+
+export const sendPlanningMessageBodyRequestIdMin = 8;
+export const sendPlanningMessageBodyRequestIdMax = 80;
+
+export const sendPlanningMessageBodyRevisionMin = 0;
+
+
+
+export const SendPlanningMessageBody = zod.object({
+  "message": zod.string().min(1).max(sendPlanningMessageBodyMessageMax),
+  "requestId": zod.string().min(sendPlanningMessageBodyRequestIdMin).max(sendPlanningMessageBodyRequestIdMax),
+  "revision": zod.number().int().min(sendPlanningMessageBodyRevisionMin)
+})
+
+export const sendPlanningMessageResponsePlanDurationWeeksMax = 26;
+
+export const sendPlanningMessageResponsePlanSessionsPerWeekMax = 7;
+
+export const sendPlanningMessageResponsePlanMinutesPerSessionMin = 5;
+export const sendPlanningMessageResponsePlanMinutesPerSessionMax = 45;
+
+export const sendPlanningMessageResponsePlanStepsMax = 12;
+
+
+
+export const SendPlanningMessageResponse = zod.object({
+  "id": zod.number().int(),
+  "childId": zod.number().int(),
+  "subject": zod.enum(['math', 'english-reading', 'science', 'second-language']),
+  "status": zod.enum(['draft', 'active', 'completed']),
+  "title": zod.string(),
+  "messages": zod.array(zod.object({
+  "id": zod.string(),
+  "role": zod.enum(['parent', 'assistant']),
+  "text": zod.string(),
+  "blocked": zod.boolean().optional()
+})),
+  "plan": zod.object({
+  "title": zod.string(),
+  "goal": zod.string(),
+  "durationWeeks": zod.number().int().min(1).max(sendPlanningMessageResponsePlanDurationWeeksMax),
+  "sessionsPerWeek": zod.number().int().min(1).max(sendPlanningMessageResponsePlanSessionsPerWeekMax),
+  "minutesPerSession": zod.number().int().min(sendPlanningMessageResponsePlanMinutesPerSessionMin).max(sendPlanningMessageResponsePlanMinutesPerSessionMax),
+  "steps": zod.array(zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "successCriteria": zod.string()
+})).min(1).max(sendPlanningMessageResponsePlanStepsMax),
+  "activityApproach": zod.string(),
+  "successCriteria": zod.string(),
+  "assumptions": zod.array(zod.string())
+}).optional(),
+  "revision": zod.number().int(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date(),
+  "approvedAt": zod.coerce.date().optional(),
+  "completedAt": zod.coerce.date().optional()
+})
+
+
+
+
+
+export const ApproveAdventureParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const approveAdventureBodyRevisionMin = 0;
+
+
+
+export const ApproveAdventureBody = zod.object({
+  "revision": zod.number().int().min(approveAdventureBodyRevisionMin),
+  "confirmed": zod.literal(true)
+})
+
+export const approveAdventureResponsePlanDurationWeeksMax = 26;
+
+export const approveAdventureResponsePlanSessionsPerWeekMax = 7;
+
+export const approveAdventureResponsePlanMinutesPerSessionMin = 5;
+export const approveAdventureResponsePlanMinutesPerSessionMax = 45;
+
+export const approveAdventureResponsePlanStepsMax = 12;
+
+
+
+export const ApproveAdventureResponse = zod.object({
+  "id": zod.number().int(),
+  "childId": zod.number().int(),
+  "subject": zod.enum(['math', 'english-reading', 'science', 'second-language']),
+  "status": zod.enum(['draft', 'active', 'completed']),
+  "title": zod.string(),
+  "messages": zod.array(zod.object({
+  "id": zod.string(),
+  "role": zod.enum(['parent', 'assistant']),
+  "text": zod.string(),
+  "blocked": zod.boolean().optional()
+})),
+  "plan": zod.object({
+  "title": zod.string(),
+  "goal": zod.string(),
+  "durationWeeks": zod.number().int().min(1).max(approveAdventureResponsePlanDurationWeeksMax),
+  "sessionsPerWeek": zod.number().int().min(1).max(approveAdventureResponsePlanSessionsPerWeekMax),
+  "minutesPerSession": zod.number().int().min(approveAdventureResponsePlanMinutesPerSessionMin).max(approveAdventureResponsePlanMinutesPerSessionMax),
+  "steps": zod.array(zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "successCriteria": zod.string()
+})).min(1).max(approveAdventureResponsePlanStepsMax),
+  "activityApproach": zod.string(),
+  "successCriteria": zod.string(),
+  "assumptions": zod.array(zod.string())
+}).optional(),
+  "revision": zod.number().int(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date(),
+  "approvedAt": zod.coerce.date().optional(),
+  "completedAt": zod.coerce.date().optional()
+})
+
+
+
+
+
+export const CompleteAdventureParams = zod.object({
+  "id": zod.coerce.number().int().min(1)
+})
+
+export const completeAdventureResponsePlanDurationWeeksMax = 26;
+
+export const completeAdventureResponsePlanSessionsPerWeekMax = 7;
+
+export const completeAdventureResponsePlanMinutesPerSessionMin = 5;
+export const completeAdventureResponsePlanMinutesPerSessionMax = 45;
+
+export const completeAdventureResponsePlanStepsMax = 12;
+
+
+
+export const CompleteAdventureResponse = zod.object({
+  "id": zod.number().int(),
+  "childId": zod.number().int(),
+  "subject": zod.enum(['math', 'english-reading', 'science', 'second-language']),
+  "status": zod.enum(['draft', 'active', 'completed']),
+  "title": zod.string(),
+  "messages": zod.array(zod.object({
+  "id": zod.string(),
+  "role": zod.enum(['parent', 'assistant']),
+  "text": zod.string(),
+  "blocked": zod.boolean().optional()
+})),
+  "plan": zod.object({
+  "title": zod.string(),
+  "goal": zod.string(),
+  "durationWeeks": zod.number().int().min(1).max(completeAdventureResponsePlanDurationWeeksMax),
+  "sessionsPerWeek": zod.number().int().min(1).max(completeAdventureResponsePlanSessionsPerWeekMax),
+  "minutesPerSession": zod.number().int().min(completeAdventureResponsePlanMinutesPerSessionMin).max(completeAdventureResponsePlanMinutesPerSessionMax),
+  "steps": zod.array(zod.object({
+  "title": zod.string(),
+  "description": zod.string(),
+  "successCriteria": zod.string()
+})).min(1).max(completeAdventureResponsePlanStepsMax),
+  "activityApproach": zod.string(),
+  "successCriteria": zod.string(),
+  "assumptions": zod.array(zod.string())
+}).optional(),
+  "revision": zod.number().int(),
+  "createdAt": zod.coerce.date(),
+  "updatedAt": zod.coerce.date(),
+  "approvedAt": zod.coerce.date().optional(),
+  "completedAt": zod.coerce.date().optional()
+})
+
+
 /**
  * @summary List the signed-in parent's child profiles
  */

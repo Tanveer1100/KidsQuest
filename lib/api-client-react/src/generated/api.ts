@@ -25,10 +25,16 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  Adventure,
+  ApproveAdventureInput,
   ChildProfile,
   CreateChildInput,
   Error,
   HealthStatus,
+  ListAdventuresParams,
+  PlanningErrorResponse,
+  PlanningMessageInput,
+  StartAdventureInput,
   UnauthorizedResponse,
   UpdateChildInput
 } from './api.schemas';
@@ -59,6 +65,519 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getListAdventuresUrl = (params: ListAdventuresParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/adventures?${stringifiedParams}` : `/api/adventures`
+}
+
+export const listAdventures = async (params: ListAdventuresParams, options?: Parameters<typeof customFetch>[1]): Promise<Adventure[]> => {
+
+  return customFetch<Adventure[]>(getListAdventuresUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListAdventuresQueryKey = (params?: ListAdventuresParams,) => {
+    return [
+    `/api/adventures`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListAdventuresQueryOptions = <TData = Awaited<ReturnType<typeof listAdventures>>, TError = ErrorType<PlanningErrorResponse>>(params: ListAdventuresParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAdventures>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListAdventuresQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listAdventures>>> = ({ signal }) => listAdventures(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listAdventures>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListAdventuresQueryResult = NonNullable<Awaited<ReturnType<typeof listAdventures>>>
+export type ListAdventuresQueryError = ErrorType<PlanningErrorResponse>
+
+
+export function useListAdventures<TData = Awaited<ReturnType<typeof listAdventures>>, TError = ErrorType<PlanningErrorResponse>>(
+ params: ListAdventuresParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAdventures>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listAdventures>>,
+          TError,
+          Awaited<ReturnType<typeof listAdventures>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListAdventures<TData = Awaited<ReturnType<typeof listAdventures>>, TError = ErrorType<PlanningErrorResponse>>(
+ params: ListAdventuresParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAdventures>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listAdventures>>,
+          TError,
+          Awaited<ReturnType<typeof listAdventures>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListAdventures<TData = Awaited<ReturnType<typeof listAdventures>>, TError = ErrorType<PlanningErrorResponse>>(
+ params: ListAdventuresParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAdventures>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListAdventures<TData = Awaited<ReturnType<typeof listAdventures>>, TError = ErrorType<PlanningErrorResponse>>(
+ params: ListAdventuresParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listAdventures>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListAdventuresQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getStartAdventureUrl = () => {
+
+
+
+
+  return `/api/adventures`
+}
+
+export const startAdventure = async (startAdventureInput: StartAdventureInput, options?: Parameters<typeof customFetch>[1]): Promise<Adventure> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<Adventure>(getStartAdventureUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(startAdventureInput)
+  }
+);}
+
+
+
+
+
+export const getStartAdventureMutationKey = () => ['startAdventure'] as const;
+
+export const getStartAdventureMutationOptions = <TError = ErrorType<PlanningErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startAdventure>>, TError,StartAdventureMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof startAdventure>>, TError,StartAdventureMutationVariables, TContext> => {
+
+const mutationKey = getStartAdventureMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startAdventure>>, StartAdventureMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  startAdventure(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type StartAdventureMutationResult = NonNullable<Awaited<ReturnType<typeof startAdventure>>>
+    export type StartAdventureMutationBody = BodyType<StartAdventureInput>
+    export type StartAdventureMutationError = ErrorType<PlanningErrorResponse>
+    export type StartAdventureMutationVariables = {data: BodyType<StartAdventureInput>}
+
+    export const useStartAdventure = <TError = ErrorType<PlanningErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startAdventure>>, TError,StartAdventureMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof startAdventure>>,
+        TError,
+        StartAdventureMutationVariables,
+        TContext
+      > => {
+      return useMutation(getStartAdventureMutationOptions(options), queryClient);
+    }
+
+export const getGetAdventureUrl = (id: number,) => {
+
+
+
+
+  return `/api/adventures/${id}`
+}
+
+export const getAdventure = async (id: number, options?: Parameters<typeof customFetch>[1]): Promise<Adventure> => {
+
+  return customFetch<Adventure>(getGetAdventureUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetAdventureQueryKey = (id: number,) => {
+    return [
+    `/api/adventures/${id}`
+    ] as const;
+    }
+
+
+export const getGetAdventureQueryOptions = <TData = Awaited<ReturnType<typeof getAdventure>>, TError = ErrorType<PlanningErrorResponse>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdventure>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAdventureQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAdventure>>> = ({ signal }) => getAdventure(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAdventure>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAdventureQueryResult = NonNullable<Awaited<ReturnType<typeof getAdventure>>>
+export type GetAdventureQueryError = ErrorType<PlanningErrorResponse>
+
+
+export function useGetAdventure<TData = Awaited<ReturnType<typeof getAdventure>>, TError = ErrorType<PlanningErrorResponse>>(
+ id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdventure>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAdventure>>,
+          TError,
+          Awaited<ReturnType<typeof getAdventure>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAdventure<TData = Awaited<ReturnType<typeof getAdventure>>, TError = ErrorType<PlanningErrorResponse>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdventure>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAdventure>>,
+          TError,
+          Awaited<ReturnType<typeof getAdventure>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAdventure<TData = Awaited<ReturnType<typeof getAdventure>>, TError = ErrorType<PlanningErrorResponse>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdventure>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAdventure<TData = Awaited<ReturnType<typeof getAdventure>>, TError = ErrorType<PlanningErrorResponse>>(
+ id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAdventure>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAdventureQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getSendPlanningMessageUrl = (id: number,) => {
+
+
+
+
+  return `/api/adventures/${id}/messages`
+}
+
+export const sendPlanningMessage = async (id: number,
+    planningMessageInput: PlanningMessageInput, options?: Parameters<typeof customFetch>[1]): Promise<Adventure> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<Adventure>(getSendPlanningMessageUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(planningMessageInput)
+  }
+);}
+
+
+
+
+
+export const getSendPlanningMessageMutationKey = () => ['sendPlanningMessage'] as const;
+
+export const getSendPlanningMessageMutationOptions = <TError = ErrorType<PlanningErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sendPlanningMessage>>, TError,SendPlanningMessageMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof sendPlanningMessage>>, TError,SendPlanningMessageMutationVariables, TContext> => {
+
+const mutationKey = getSendPlanningMessageMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof sendPlanningMessage>>, SendPlanningMessageMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  sendPlanningMessage(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SendPlanningMessageMutationResult = NonNullable<Awaited<ReturnType<typeof sendPlanningMessage>>>
+    export type SendPlanningMessageMutationBody = BodyType<PlanningMessageInput>
+    export type SendPlanningMessageMutationError = ErrorType<PlanningErrorResponse>
+    export type SendPlanningMessageMutationVariables = {id: number;data: BodyType<PlanningMessageInput>}
+
+    export const useSendPlanningMessage = <TError = ErrorType<PlanningErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sendPlanningMessage>>, TError,SendPlanningMessageMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof sendPlanningMessage>>,
+        TError,
+        SendPlanningMessageMutationVariables,
+        TContext
+      > => {
+      return useMutation(getSendPlanningMessageMutationOptions(options), queryClient);
+    }
+
+export const getApproveAdventureUrl = (id: number,) => {
+
+
+
+
+  return `/api/adventures/${id}/approve`
+}
+
+export const approveAdventure = async (id: number,
+    approveAdventureInput: ApproveAdventureInput, options?: Parameters<typeof customFetch>[1]): Promise<Adventure> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<Adventure>(getApproveAdventureUrl(id),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(approveAdventureInput)
+  }
+);}
+
+
+
+
+
+export const getApproveAdventureMutationKey = () => ['approveAdventure'] as const;
+
+export const getApproveAdventureMutationOptions = <TError = ErrorType<PlanningErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof approveAdventure>>, TError,ApproveAdventureMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof approveAdventure>>, TError,ApproveAdventureMutationVariables, TContext> => {
+
+const mutationKey = getApproveAdventureMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof approveAdventure>>, ApproveAdventureMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  approveAdventure(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ApproveAdventureMutationResult = NonNullable<Awaited<ReturnType<typeof approveAdventure>>>
+    export type ApproveAdventureMutationBody = BodyType<ApproveAdventureInput>
+    export type ApproveAdventureMutationError = ErrorType<PlanningErrorResponse>
+    export type ApproveAdventureMutationVariables = {id: number;data: BodyType<ApproveAdventureInput>}
+
+    export const useApproveAdventure = <TError = ErrorType<PlanningErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof approveAdventure>>, TError,ApproveAdventureMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof approveAdventure>>,
+        TError,
+        ApproveAdventureMutationVariables,
+        TContext
+      > => {
+      return useMutation(getApproveAdventureMutationOptions(options), queryClient);
+    }
+
+export const getCompleteAdventureUrl = (id: number,) => {
+
+
+
+
+  return `/api/adventures/${id}/complete`
+}
+
+export const completeAdventure = async (id: number, options?: Parameters<typeof customFetch>[1]): Promise<Adventure> => {
+
+  return customFetch<Adventure>(getCompleteAdventureUrl(id),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+
+export const getCompleteAdventureMutationKey = () => ['completeAdventure'] as const;
+
+export const getCompleteAdventureMutationOptions = <TError = ErrorType<PlanningErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof completeAdventure>>, TError,CompleteAdventureMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof completeAdventure>>, TError,CompleteAdventureMutationVariables, TContext> => {
+
+const mutationKey = getCompleteAdventureMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof completeAdventure>>, CompleteAdventureMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  completeAdventure(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CompleteAdventureMutationResult = NonNullable<Awaited<ReturnType<typeof completeAdventure>>>
+
+    export type CompleteAdventureMutationError = ErrorType<PlanningErrorResponse>
+    export type CompleteAdventureMutationVariables = {id: number}
+
+    export const useCompleteAdventure = <TError = ErrorType<PlanningErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof completeAdventure>>, TError,CompleteAdventureMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof completeAdventure>>,
+        TError,
+        CompleteAdventureMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCompleteAdventureMutationOptions(options), queryClient);
+    }
 
 export const getListChildrenUrl = () => {
 

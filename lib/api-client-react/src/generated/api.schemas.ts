@@ -5,6 +5,116 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export type Subject = typeof Subject[keyof typeof Subject];
+
+
+export const Subject = {
+  math: 'math',
+  'english-reading': 'english-reading',
+  science: 'science',
+  'second-language': 'second-language',
+} as const;
+
+export interface StartAdventureInput {
+  /** @minimum 1 */
+  childId: number;
+  subject: Subject;
+}
+
+export interface PlanningMessageInput {
+  /**
+     * @minLength 1
+     * @maxLength 1500
+     */
+  message: string;
+  /**
+     * @minLength 8
+     * @maxLength 80
+     */
+  requestId: string;
+  /** @minimum 0 */
+  revision: number;
+}
+
+export interface ApproveAdventureInput {
+  /** @minimum 0 */
+  revision: number;
+  confirmed: true;
+}
+
+export type LearningPlanStepsItem = {
+  title: string;
+  description: string;
+  successCriteria: string;
+};
+
+export interface LearningPlan {
+  title: string;
+  goal: string;
+  /**
+     * @minimum 1
+     * @maximum 26
+     */
+  durationWeeks: number;
+  /**
+     * @minimum 1
+     * @maximum 7
+     */
+  sessionsPerWeek: number;
+  /**
+     * @minimum 5
+     * @maximum 45
+     */
+  minutesPerSession: number;
+  /**
+     * @minItems 1
+     * @maxItems 12
+     */
+  steps: LearningPlanStepsItem[];
+  activityApproach: string;
+  successCriteria: string;
+  assumptions: string[];
+}
+
+export type PlanningMessageRole = typeof PlanningMessageRole[keyof typeof PlanningMessageRole];
+
+
+export const PlanningMessageRole = {
+  parent: 'parent',
+  assistant: 'assistant',
+} as const;
+
+export interface PlanningMessage {
+  id: string;
+  role: PlanningMessageRole;
+  text: string;
+  blocked?: boolean;
+}
+
+export type AdventureStatus = typeof AdventureStatus[keyof typeof AdventureStatus];
+
+
+export const AdventureStatus = {
+  draft: 'draft',
+  active: 'active',
+  completed: 'completed',
+} as const;
+
+export interface Adventure {
+  id: number;
+  childId: number;
+  subject: Subject;
+  status: AdventureStatus;
+  title: string;
+  messages: PlanningMessage[];
+  plan?: LearningPlan;
+  revision: number;
+  createdAt: string;
+  updatedAt: string;
+  approvedAt?: string;
+  completedAt?: string;
+}
+
 export interface Error {
   error: string;
 }
@@ -81,7 +191,19 @@ export interface HealthStatus {
 }
 
 /**
+ * Invalid input, authentication required, unavailable resource, conflict, usage limit, or unavailable AI
+ */
+export type PlanningErrorResponse = Error;
+
+/**
  * Authentication required
  */
 export type UnauthorizedResponse = Error;
+
+export type ListAdventuresParams = {
+/**
+ * @minimum 1
+ */
+childId: number;
+};
 

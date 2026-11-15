@@ -1,1 +1,2 @@
 - [Authentication platform verification](auth-platform-verification.md) — Google sign-in was confirmed in Expo Go; browser-preview behavior must be verified separately.
+- [Gemini availability](gemini-availability.md) — a listed model may still reject generation; verify the exact capability before changing credentials.

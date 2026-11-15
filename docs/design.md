@@ -20,7 +20,7 @@ Build a mobile prototype with frontend and backend for:
 - Subject screens with Active and Completed learning adventures.
 - An AI planning chat for adding a learning adventure.
 
-Google Gemini is the selected AI provider. “Learning adventure” is the child-facing name for a learning plan. The learning-plan creation SOP and required plan fields still need the user's decisions before implementation.
+Google Gemini is the selected AI provider. “Learning adventure” is the child-facing name for a learning plan. The user directed implementation of parent chat → proposed plan → explicit parent approval, with revisions through chat.
 
 Child assessments, lesson execution, gamification, and detailed progress tracking remain outside this MVP. Active and Completed lists refer to the status of saved learning adventures.
 
@@ -28,7 +28,7 @@ The user has specified the authentication options, child-profile fields, and age
 
 #### Current screens and proposed names — awaiting approval
 
-There are seven main routes and two conditional authentication steps, for nine core user-facing screen states. The sign-in callback and not-found fallback are utility pages, not part of the core view count.
+Core views are listed below, including the new subject and adventure screens. The sign-in callback and not-found fallback are utility pages.
 
 | Screen or state | Proposed name |
 | --- | --- |
@@ -41,6 +41,9 @@ There are seven main routes and two conditional authentication steps, for nine c
 | Child profile form | Add profile |
 | Child details | Child profile |
 | Child's subject page | [Child nickname]’s learning home |
+| Selected subject's Active / Completed lists | Subject adventures |
+| Unapproved adventure conversation and draft | Plan a learning adventure |
+| Approved or completed plan | Learning adventure |
 
 The user has not yet approved these names.
 
@@ -77,7 +80,7 @@ No particular language or country is assumed as a default.
 - Each subject tile should show the number of active learning plans for that subject. This depends on learning plans being created and tracked; do not show invented counts.
 - Subject progress language should feel gentle, playful, and encouraging, not like a judgment of the child or parent. Do not invent a measured grade or progress result.
 - Use gentle learning stages rather than school-style grades or percentages. While a subject has not been assessed or started, show “Ready to explore.” Once work on a subject has begun, use “Working on it” instead of “Practicing together.”
-- Until learning plans are implemented, the prototype shows 0 active plans per topic as an explicit placeholder; replace these with counts from real plan data when available.
+- Subject counts come from saved adventures with Active status; drafts and completed adventures do not count as active. Loading or unavailable counts must not appear as fabricated zeroes.
 
 #### Child home overview
 
@@ -85,7 +88,7 @@ No particular language or country is assumed as a default.
 - The page should let a parent understand each subject at a glance through its icon, gentle learning stage, and active-plan count.
 - Use “Learning adventure” as the child-facing name for a learning plan/course.
 - Selecting a subject shows a toggle between its Active and Completed learning-adventure lists.
-- The Active list shows the subject’s learning adventures and an “Add a learning adventure” action. The creation flow and required fields are not decided yet.
+- The Active list shows active adventures and resumable planning drafts, clearly marked “Draft, not active”, plus an “Add a learning adventure” action that opens the AI planning chat.
 - Selecting a subject opens a separate subject screen with Active and Completed learning-adventure lists.
 - A next planned session or recent positive learning win could be considered later, but these additions are not approved.
 
@@ -143,7 +146,7 @@ This example illustrates the workflow; it does not restrict the app to six-year-
 
 ## Approved planning-chat guardrails
 
-The user approved the following controls. They are requirements for implementation, not a claim that guardrails are implemented or unbreakable.
+The user approved the following controls. The implementation uses layered controls, not a guarantee of unbreakable protection.
 
 1. **Bind scope on the server.** Verify the parent owns the child profile and bind each conversation to that child, selected subject, and learning goal. Do not trust identity, subject, or instructions supplied by the mobile client.
 2. **Restrict the workflow.** Accept only planning actions: describe the learning need, clarify the starting point, set availability, review a draft, request changes, or approve. Relevant parent replies such as “10 minutes daily” and “yes” must be evaluated in context, not rejected for lacking subject keywords.
@@ -156,11 +159,33 @@ The user approved the following controls. They are requirements for implementati
 
 Redirect example: “I can help create a [subject] learning adventure for [nickname]. What would you like them to learn?”
 
+## Implemented planning workflow
+
+The user directed implementation: “based on parent chat develop a plan and ask for approval”. The first version:
+
+1. Opens a parent-owned planning draft within the selected child's subject; an existing draft for that subject is resumed.
+2. Asks for the learning need, parent-reported starting ability, and available time, using the profile's age bucket and learning language without asking again.
+3. Uses Gemini to ask focused follow-up questions or suggest a full plan containing title, goal, estimated duration, session frequency and length, ordered steps, activity approach, observable success criteria, and labeled assumptions.
+4. Shows the draft for review. Parents request revisions through chat.
+5. Activates only the exact reviewed draft version when the parent presses “Approve adventure”. Chat text alone cannot approve.
+6. Keeps approved plans read-only and lists them under Active. “Mark completed” is an explicit parent record, not an assessment of mastery.
+
+**Current limits:** short child assessments and lesson delivery are not available; the chat states this and uses parent observations. There is no vetted curriculum library yet, so AI suggestions require parent judgment and do not guarantee educational outcomes. Parent daily usage is capped at 90 reserved model calls (at most 30 full planning turns); chats allow at most 30 parent turns and messages of 1,500 characters. Each turn has scope screening, structured generation, and independent output review, with deterministic validation and fixed refusal messages. Provider/check failures block unchecked output. Drafts survive reloads; retries use message IDs and version checks to avoid duplication or stale approval.
+
+### Verification of the first planning version
+
+- Workspace typechecking and iOS/Android JavaScript exports passed.
+- Five deterministic guardrail test suites passed.
+- Real Gemini requests generated a two-digit-addition draft and rejected off-topic, mixed-purpose, multilingual off-topic, encoded-instruction, and cross-subject requests.
+- An authenticated phone-sized browser test verified draft generation, refusal, revision, reload persistence, explicit approval, real active counts, and parent-marked completion.
+- Unauthenticated access returned 401; a second parent could not read or approve another parent's adventures. Missing confirmation was rejected. A mismatched revision on an empty draft was rejected; the stale-version case on a plan-bearing draft was not independently exercised.
+- Browser testing used the main project preview host because programmatic test authentication did not establish a session on the separate Expo host. This does not verify Google login on that browser host or native device behavior. Native planning has not yet been tested in Expo Go.
+
 ## Unapproved suggestions
 
-### AI learning-plan creation SOP — draft for review
+### Extended educational SOP — future review
 
-The user requires an SOP for how AI builds a learning plan. The procedure below is an assistant proposal, not an approved design. AI planning is now in scope, but this SOP still needs approval before implementation.
+The following more detailed educational procedure remains a proposal beyond the implemented parent-chat workflow; reviewed curriculum sources, assessments, and mastery policies are not implemented.
 
 1. **Gather the learning brief.** Ask conversationally about age, the specific difficulty, examples of what the child can and cannot do, the parent's desired outcome, available time, and relevant learning preferences or constraints. Do not repeatedly ask for information already provided.
 2. **Establish the starting level.** Offer the optional short assessment. With parent agreement, use its results; if declined, let the parent drive the starting-level decision. Distinguish parent reports, assessment observations, and unverified assumptions. Do not invent assessment results.

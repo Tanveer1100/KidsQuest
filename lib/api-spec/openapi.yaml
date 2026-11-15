@@ -13,6 +13,99 @@ tags:
   - name: children
     description: Parent-owned child profiles
 paths:
+  /adventures:
+    get:
+      operationId: listAdventures
+      tags: [children]
+      parameters:
+        - { name: childId, in: query, required: true, schema: { type: integer, minimum: 1 } }
+      responses:
+        "200":
+          description: Parent-owned learning adventures including planning drafts
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/Adventure" } }
+        default: { $ref: "#/components/responses/PlanningError" }
+    post:
+      operationId: startAdventure
+      tags: [children]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StartAdventureInput"
+      responses:
+        "201":
+          description: New planning conversation
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Adventure" }
+        default: { $ref: "#/components/responses/PlanningError" }
+  /adventures/{id}:
+    get:
+      operationId: getAdventure
+      tags: [children]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer, minimum: 1 } }
+      responses:
+        "200":
+          description: Learning adventure and planning conversation
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Adventure" }
+        default: { $ref: "#/components/responses/PlanningError" }
+  /adventures/{id}/messages:
+    post:
+      operationId: sendPlanningMessage
+      tags: [children]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer, minimum: 1 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlanningMessageInput"
+      responses:
+        "200":
+          description: Updated conversation with a question, redirect, or validated draft
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Adventure" }
+        default: { $ref: "#/components/responses/PlanningError" }
+  /adventures/{id}/approve:
+    post:
+      operationId: approveAdventure
+      tags: [children]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer, minimum: 1 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApproveAdventureInput"
+      responses:
+        "200":
+          description: Explicitly approved active learning adventure
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Adventure" }
+        default: { $ref: "#/components/responses/PlanningError" }
+  /adventures/{id}/complete:
+    post:
+      operationId: completeAdventure
+      tags: [children]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer, minimum: 1 } }
+      responses:
+        "200":
+          description: Parent-marked completion, not an assessed mastery result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Adventure" }
+        default: { $ref: "#/components/responses/PlanningError" }
   /children:
     get:
       operationId: listChildren
@@ -108,6 +201,11 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   responses:
+    PlanningError:
+      description: Invalid input, authentication required, unavailable resource, conflict, usage limit, or unavailable AI
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
     Unauthorized:
       description: Authentication required
       content:
@@ -115,6 +213,78 @@ components:
           schema:
             $ref: "#/components/schemas/Error"
   schemas:
+    StartAdventureInput:
+      type: object
+      additionalProperties: false
+      required: [childId, subject]
+      properties:
+        childId: { type: integer, minimum: 1 }
+        subject: { $ref: "#/components/schemas/Subject" }
+    PlanningMessageInput:
+      type: object
+      additionalProperties: false
+      required: [message, requestId, revision]
+      properties:
+        message: { type: string, minLength: 1, maxLength: 1500 }
+        requestId: { type: string, minLength: 8, maxLength: 80 }
+        revision: { type: integer, minimum: 0 }
+    ApproveAdventureInput:
+      type: object
+      additionalProperties: false
+      required: [revision, confirmed]
+      properties:
+        revision: { type: integer, minimum: 0 }
+        confirmed: { type: boolean, enum: [true] }
+    Subject:
+      type: string
+      enum: [math, english-reading, science, second-language]
+    LearningPlan:
+      type: object
+      required: [title, goal, durationWeeks, sessionsPerWeek, minutesPerSession, steps, activityApproach, successCriteria, assumptions]
+      properties:
+        title: { type: string }
+        goal: { type: string }
+        durationWeeks: { type: integer, minimum: 1, maximum: 26 }
+        sessionsPerWeek: { type: integer, minimum: 1, maximum: 7 }
+        minutesPerSession: { type: integer, minimum: 5, maximum: 45 }
+        steps:
+          type: array
+          minItems: 1
+          maxItems: 12
+          items:
+            type: object
+            required: [title, description, successCriteria]
+            properties:
+              title: { type: string }
+              description: { type: string }
+              successCriteria: { type: string }
+        activityApproach: { type: string }
+        successCriteria: { type: string }
+        assumptions: { type: array, items: { type: string } }
+    PlanningMessage:
+      type: object
+      required: [id, role, text]
+      properties:
+        id: { type: string }
+        role: { type: string, enum: [parent, assistant] }
+        text: { type: string }
+        blocked: { type: boolean }
+    Adventure:
+      type: object
+      required: [id, childId, subject, status, title, messages, revision, createdAt, updatedAt]
+      properties:
+        id: { type: integer }
+        childId: { type: integer }
+        subject: { $ref: "#/components/schemas/Subject" }
+        status: { type: string, enum: [draft, active, completed] }
+        title: { type: string }
+        messages: { type: array, items: { $ref: "#/components/schemas/PlanningMessage" } }
+        plan: { $ref: "#/components/schemas/LearningPlan" }
+        revision: { type: integer }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        approvedAt: { type: string, format: date-time }
+        completedAt: { type: string, format: date-time }
     Error:
       type: object
       required: [error]

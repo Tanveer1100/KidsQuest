@@ -6,12 +6,24 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './adventure';
+export * from './adventureStatus';
+export * from './approveAdventureInput';
 export * from './childProfile';
 export * from './childProfileAgeBucket';
 export * from './createChildInput';
 export * from './createChildInputAgeBucket';
 export * from './error';
 export * from './healthStatus';
+export * from './learningPlan';
+export * from './learningPlanStepsItem';
+export * from './listAdventuresParams';
+export * from './planningErrorResponse';
+export * from './planningMessage';
+export * from './planningMessageInput';
+export * from './planningMessageRole';
+export * from './startAdventureInput';
+export * from './subject';
 export * from './unauthorizedResponse';
 export * from './updateChildInput';
 export * from './updateChildInputAgeBucket';
