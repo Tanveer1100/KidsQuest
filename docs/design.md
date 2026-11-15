@@ -22,6 +22,24 @@ AI will be added later. AI planning, assessments, child learning activities, gam
 
 The user has specified the authentication options, child-profile fields, and age buckets below and selected a **simple and calm** visual style. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
 
+#### Current screens and proposed names — awaiting approval
+
+There are seven main routes and two conditional authentication steps, for nine core user-facing screen states. The sign-in callback and not-found fallback are utility pages, not part of the core view count.
+
+| Screen or state | Proposed name |
+| --- | --- |
+| Public start | Welcome |
+| Parent account form | Parent sign-up |
+| Sign-up email-code step | Check your email |
+| Parent login form | Parent sign-in |
+| Sign-in email-code step | Confirm it’s you |
+| Saved child profiles | Your children |
+| Child profile form | Add a child |
+| Child details | Child profile |
+| Child's subject page | [Child nickname]’s learning home |
+
+The user has not yet approved these names.
+
 #### Parent authentication
 
 Parents can choose either:
