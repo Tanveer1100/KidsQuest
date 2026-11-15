@@ -52,11 +52,12 @@ No particular language or country is assumed as a default.
 - Subject progress language should feel gentle, playful, and encouraging, not like a judgment of the child or parent. Do not invent a measured grade or progress result.
 - Use gentle learning stages rather than school-style grades or percentages. While a subject has not been assessed or started, show “Ready to explore.” Once work on a subject has begun, use “Working on it” instead of “Practicing together.”
 
-#### Parent overview ideas — not yet approved
+#### Child home overview
 
-- Consider showing the next planned learning session and a recent positive learning win, if these can be backed by real plan or activity data.
-- The user selected the child learning home as the audience for the subject page. Where to place the complementary parent one-glance summary still needs a decision.
+- Keep this as the child-facing home page only; do not add a separate parent summary or parent-only section.
+- The page should let a parent understand each subject at a glance through its icon, gentle learning stage, and active-plan count.
 - Child-friendly wording for the active-plan count (for example, “learning adventures” rather than “active plans”) still needs a decision.
+- A next planned session or recent positive learning win could be considered later, but these additions are not approved.
 
 ### Future product direction
 
@@ -184,6 +185,7 @@ The assistant previously suggested the following. These are not requirements or 
 | Show Math, English reading, Science, and Second Language on the child home page with icons. | Confirmed by user and implemented. |
 | Show the active learning-plan count on each subject tile. | Confirmed by user; requires learning-plan data and is not yet implemented. |
 | Make the child home page child-facing. | Confirmed by user. |
+| Keep the child home as the only overview; no separate parent summary. | Confirmed by user. |
 | Use gentle learning stages: “Ready to explore” before starting and “Working on it” once a subject is underway. | Confirmed by user; the current app shows “Ready to explore” until learning activity is added. |
 | Offer email/password with email verification by a sent code, or Google as the identity provider. | Confirmed by user. |
 | Use a simple and calm visual style for the MVP. | Confirmed by user. |
