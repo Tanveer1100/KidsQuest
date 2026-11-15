@@ -145,8 +145,9 @@ The assistant previously suggested the following. These are not requirements or 
 - The implementation uses the approved simple and calm direction. "Kids Learning" is a descriptive working title, not a separately approved permanent brand.
 - AI access was previously enabled, but the MVP contains no AI features or AI calls.
 - Verification: workspace type checks, Expo dependency checks, and iOS/Android JavaScript exports passed. The backend health endpoint responds and signed-out profile reads/creates are rejected.
-- Full sign-up/code delivery, Google account authorization, signed-in profile creation, and physical-device behavior have not been verified end to end. JavaScript exports are not proof of device behavior or App Store readiness.
+- The user confirmed Google sign-in works in Expo Go. Full email/password sign-up and code delivery, signed-in profile creation, and other device behavior have not been verified end to end. JavaScript exports are not proof of device behavior or App Store readiness.
 - Google sign-in investigation: the user reported “403 - you don't have access” in browser preview. A signed-out browser check reached Google's sign-in page successfully when opened as a standalone page; it stopped before entering Google credentials. The reported 403 and its source have not yet been reproduced. Embedded-preview behavior and the post-authorization callback remain unverified. No speculative authentication changes were made.
+- Native and browser results are tracked separately: the Expo Go confirmation does not resolve the browser-preview 403.
 
 ## Decision record
 
