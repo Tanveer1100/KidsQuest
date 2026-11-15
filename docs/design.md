@@ -10,6 +10,20 @@
 
 ## Confirmed requirements
 
+### Current MVP scope
+
+Build a simple working mobile prototype with frontend and backend for:
+
+- Parent sign-up.
+- Parent login.
+- Creating a child's profile.
+
+AI will be added later. AI planning, assessments, child learning activities, gamification, and progress tracking are outside this MVP. The broader requirements below are retained as future product direction, not permission to implement them now.
+
+Profile fields, sign-in methods, and visual design still need the user's decisions. The existing agreement to proceed step by step and leave all design decisions to the user remains in force.
+
+### Future product direction
+
 | Area | Requirement |
 | --- | --- |
 | Platform | Mobile app. |
@@ -60,6 +74,25 @@ This example illustrates the workflow; it does not restrict the app to six-year-
 
 ## Unapproved suggestions
 
+### AI learning-plan creation SOP — draft for review
+
+The user requires an SOP for how AI builds a learning plan. The procedure below is an assistant proposal, not an approved design. This work is deferred beyond the current non-AI MVP.
+
+1. **Gather the learning brief.** Ask conversationally about age, the specific difficulty, examples of what the child can and cannot do, the parent's desired outcome, available time, and relevant learning preferences or constraints. Do not repeatedly ask for information already provided.
+2. **Establish the starting level.** Offer the optional short assessment. With parent agreement, use its results; if declined, let the parent drive the starting-level decision. Distinguish parent reports, assessment observations, and unverified assumptions. Do not invent assessment results.
+3. **Map the required skills.** Break the target into prerequisites and a teachable sequence. Proposed grounding: a reviewed skill map and teaching guidelines, with AI personalizing rather than inventing the educational sequence. The source, curriculum alignment, and review process remain undecided.
+4. **Set measurable goals.** Propose observable outcomes and completion checks for each skill, including whether the child succeeds independently or with hints. Exact thresholds require definition and parent agreement.
+5. **Build a feasible schedule.** Fit the sequence to the parent's available time. Suggest total duration, session frequency and length, practice, review, and checkpoints. Treat duration as an estimate, not a guarantee. Explain conflicts between scope and available time rather than promising an unrealistic result.
+6. **Produce the draft plan.** Include the approved plan elements: goal, duration and schedule, learning steps, activity approach, and success criteria. Explain why the plan fits the information supplied and flag assumptions. Detailed lesson mechanics remain undecided.
+7. **Check the draft.** Check prerequisite order, age suitability, schedule feasibility, measurable goals, consistency, and alignment with the parent's request. Flag unsupported skills or missing educational guidance instead of inventing certainty. This is a proposed validation procedure, not a claim that AI self-review guarantees educational quality.
+8. **Review and agree with the parent.** Present the suggestion, invite choices and adjustments, explain effects of changes, and repeat as needed. Save the explicitly agreed plan as the active version before execution. No unilateral replacement of an approved plan is proposed.
+
+**Illustrative skill sequence, not a fixed curriculum:** for double-digit addition, check tens and ones and relevant single-digit addition, then consider addition without regrouping, regrouping if included in the agreed goal, and mixed practice. The sequence depends on the child's starting level and the parent's chosen scope.
+
+**Still to decide:** educational reference sources, required intake fields, assessment method, mastery thresholds, validation rules, and policies for changes after learning begins.
+
+### Earlier product suggestions
+
 The assistant previously suggested the following. These are not requirements or approved decisions:
 
 - Math, reading, science, and logic as the initial subjects.
@@ -67,6 +100,14 @@ The assistant previously suggested the following. These are not requirements or 
 - Age-adjusted activities and a specific reward approach.
 
 ## Open questions
+
+### MVP decisions
+
+- Which sign-up and login methods should parents use?
+- What fields should a child's profile contain?
+- What visual direction should the prototype use?
+
+### Future learning features
 
 - Which subjects and learning goals should be supported?
 - How should learning differ across ages 3–12?
@@ -94,3 +135,5 @@ The assistant previously suggested the following. These are not requirements or 
 | Create plans through an interactive parent chat, agree on the plan and duration, then execute it and track progress. | Confirmed by user's reference use case. |
 | Offer a short child assessment only with parent agreement; if declined, let the parent drive the starting-level decision. | Confirmed by user. |
 | Suggest plan goals, duration and schedule, learning steps, activity approach, and success criteria; let the parent choose and adjust before agreeing. | Confirmed by user. |
+| Define an SOP for how AI builds a learning plan before proceeding to the child's lesson design. | Requested by user; SOP contents await approval. |
+| First build a simple mobile frontend and backend for parent sign-up, login, and child-profile creation; add AI later. | Confirmed by user; supersedes the immediate focus on the AI planning SOP. |
